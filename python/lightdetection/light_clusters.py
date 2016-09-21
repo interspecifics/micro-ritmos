@@ -28,7 +28,7 @@ class stateMachine:
 				self.actCount[i] += 1
 			elif binList[i] > 0 and self.actCount[i] > 0:
 				# keep counting
-				self.actCount[i] += 1 
+				self.actCount[i] += 1
 			elif binList[i] == 0 and self.actCount[i] == 0:
 				# do nothing
 				continue
@@ -36,7 +36,7 @@ class stateMachine:
 				# stop a note
 				self.stop_note(i,l,self.actCount[i])
 				self.actCount[i] = 0
-	
+
 	def show(self):
 		print self.actCount
 
@@ -105,7 +105,7 @@ if __name__ == "__main__":
 	SM = stateMachine(w/10)
 
 	## osc init
-	send_addr = "192.168.0.10", 8338
+	send_addr = "10.40.24.105", 57120
 	cOsc = OSC.OSCClient()
 	cOsc.connect(send_addr)
 
@@ -131,7 +131,7 @@ if __name__ == "__main__":
 		cam.resolution = (w, h)
 		cam.framerate = frameR
 		cam.contrast = 100
-		cam.brightness = 20		
+		cam.brightness = 20
 		#cam.start_preview()
 		time.sleep(2)
 		stream = PiRGBArray(cam)
@@ -148,12 +148,12 @@ if __name__ == "__main__":
 			bImg = cv2.medianBlur(img, 11)
 			th, tImg = cv2.threshold(bImg, binThreshold, maxVal, cv2.THRESH_BINARY);
 			keyPoints = detector.detect(tImg)
-			kp_coo = [k.pt for k in keyPoints]			
+			kp_coo = [k.pt for k in keyPoints]
 																# bin & count
-			kp_bin = binarize_keypoints(10, w, kp_coo) 
+			kp_bin = binarize_keypoints(10, w, kp_coo)
 			cluster = recognize(kp_bin, means)
 			print i,"[",cluster,"] - ",kp_bin
-			SM.update(kp_bin, cluster)
+			 SM.update(kp_bin, cluster)
 			#SM.show()
 																# track & ntes
 			cv2.rectangle(track, (i%w, 0), (i%w, 50), (0,0,0))
@@ -174,10 +174,10 @@ if __name__ == "__main__":
 					try:
 						samples = np.array(nD, np.float32)
 						temp, clusters_label, means = cv2.kmeans(data=np.asarray(samples),
-																	K=n_clusters, 
-																	bestLabels=None, 
-																	criteria=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_MAX_ITER, 1, 100), 
-																	attempts=1, 
+																	K=n_clusters,
+																	bestLabels=None,
+																	criteria=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_MAX_ITER, 1, 100),
+																	attempts=1,
 																	flags=cv2.KMEANS_RANDOM_CENTERS)
 						cPickle.dump(nD, open('last_data.cpk','w'))
 						cPickle.dump(means, open('centroids.cpk','w'))
@@ -195,6 +195,3 @@ if __name__ == "__main__":
 
 		## exit
 		cv2.destroyAllWindows()
-
-
-

@@ -105,7 +105,7 @@ if __name__ == "__main__":
 	SM = stateMachine(w/10)
 
 	## osc init
-	send_addr = "localhost", 8300
+	send_addr = "11.40.24.250", 57120
 	cOsc = OSC.OSCClient()
 	cOsc.connect(send_addr)
 

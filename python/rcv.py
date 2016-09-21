@@ -2,7 +2,7 @@ from OSC import OSCServer
 import sys
 from time import sleep
 
-server = OSCServer( ("localhost", 8300) )
+server = OSCServer( ("11.40.24.250", 57120) )
 server.timeout = 0
 run = True
 
@@ -20,7 +20,7 @@ def user_callback(path, tags, args, source):
     # tags will contain 'fff'
     # args is a OSCMessage with data
     # source is where the message came from (in case you need to reply)
-    print ("Now do something with", user,args[2],args[0],1-args[1]) 
+    print ("Now do something with", user,args[2],args[0],1-args[1])
 
 def quit_callback(path, tags, args, source):
     # don't do this at home (or it'll quit blender)

@@ -160,7 +160,7 @@ if __name__ == "__main__":
 			for k in keyPoints:
 				cv2.rectangle(track, (i%w, int(k.pt[0]*(50.0/w))), (i%w, int(k.pt[0]*(50.0/w))+2), (255,255,255))
 			tImg[ posTr_y:posTr_y+track.shape[0], posTr_x:posTr_x+track.shape[1] ] = track
-			cv2.imshow(" lights! ", tImg)
+			#cv2.imshow(" lights! ", tImg)
 			i = i+1
 																# stop vIn
 			stream.seek(0)

@@ -135,7 +135,7 @@ if __name__ == "__main__":
 															# bin & count
 		kp_bin = binarize_keypoints(20, w, kp_coo)
 		SM.update(kp_bin)
-		#SM.show()
+		SM.show()
 															# track & ntes
 		cv2.rectangle(track, (i%w, 0), (i%w, w/5), (0,0,0))
 		for k in keyPoints:

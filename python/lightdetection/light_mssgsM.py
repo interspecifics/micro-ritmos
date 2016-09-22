@@ -47,40 +47,40 @@ class stateMachine:
 	def start_note(self, i, l ,s):
                 route = "/raspi%d/sinte" % self.rPi_id
         msg = OSC.OSCMessage()
-		msg.setAddress(route)
+	msg.setAddress(route)
 		msg.append(s)
 		cOsc.send(msg)
 
 		        route = "/raspi%d/nota" % self.rPi_id
         msg = OSC.OSCMessage()
-		msg.setAddress(route)
+	msg.setAddress(route)
 		msg.append(i)
 		msg.append(0)
 		cOsc.send(msg)
 
 		        route = "/raspi%d/canal" % self.rPi_id
         msg = OSC.OSCMessage()
-		msg.setAddress(route)
+	msg.setAddress(route)
 		msg.append(l)
 		cOsc.send(msg)
 
 	def stop_note(self, i, l, s, t):
                route = "/raspi%d/sinte" % self.rPi_id
         msg = OSC.OSCMessage()
-		msg.setAddress(route)
+	msg.setAddress(route)
 		msg.append(s)
 		cOsc.send(msg)
 
 		       route = "/raspi%d/nota" % self.rPi_id
         msg = OSC.OSCMessage()
-		msg.setAddress(route)
+	msg.setAddress(route)
 		msg.append(i)
 		msg.append(t)
 		cOsc.send(msg)
 
 		       route = "/raspi%d/canal" % self.rPi_id
         msg = OSC.OSCMessage()
-		msg.setAddress(route)
+	msg.setAddress(route)
 		msg.append(l)
 		cOsc.send(msg)
 

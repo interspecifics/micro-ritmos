@@ -45,14 +45,15 @@ class stateMachine:
 	def show(self):
 		print self.actCount
 
-	def stop_note(self, i, l ,s):
+
+   def stop_note(self, i, l ,s, t):
 		route = "/raspi%d/" % self.rPi_id
 		msg = OSC.OSCMessage()
 		msg.setAddress(route)
-		msg.append(s["sinte"])
-		msg.apped(i["nota"] + t["trigger"])
-		msg.apped(l["canal"])
-		msg.append()
+		msg.append(s)
+		msg.append(i)
+		msg.append(t)
+		msg.append(l)
 		cOsc.send(msg)
 
 

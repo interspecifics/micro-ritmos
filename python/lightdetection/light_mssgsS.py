@@ -1,7 +1,5 @@
 """
-light_messsages 0.2
-- - - - - - - - - -
-?better OSC
+light_messsages
 """
 
 from picamera.array import PiRGBArray
@@ -28,7 +26,7 @@ class stateMachine:
 		for i in range( len(self.actCount) ):
 			if binList[i] > 0 and self.actCount[i] == 0:
 				# start da note
-				self.start_note(i, l, sum(binList)%7)
+				self.start_note(i, l)
 				self.actCount[i] += 1
 			elif binList[i] > 0 and self.actCount[i] > 0:
 				# keep counting
@@ -38,50 +36,24 @@ class stateMachine:
 				continue
 			elif binList[i] == 0 and self.actCount[i] > 0:
 				# stop a note
-				self.stop_note(i,l, sum(binList)%7, self.actCount[i])
+				self.stop_note(i,l,self.actCount[i])
 				self.actCount[i] = 0
 
 	def show(self):
 		print self.actCount
 
-	def start_note(self, i, l ,s):
-                route = "/raspi%d/sinte" % self.rPi_id
-        msg = OSC.OSCMessage()
-	msg.setAddress(route)
-		msg.append(s)
+	def start_note(self, i, l):
+                route = "/raspi(%d)/sinte(%d)/channelOut(%d)" %  (self.rPi_id, int(i/4),int(l))
+		msg = OSC.OSCMessage()
+		msg.setAddress(route)
+		msg.append(1)
 		cOsc.send(msg)
 
-		        route = "/raspi%d/nota" % self.rPi_id
-        msg = OSC.OSCMessage()
-	msg.setAddress(route)
-		msg.append(i)
+	def stop_note(self, i, l, t):
+                route = "/raspi(%d)/sinte(%d)/tiempo(%d)/channelOut(%d)" %  (self.rPi_id, int(i/4),t,l)
+		msg = OSC.OSCMessage()
+		msg.setAddress(route)
 		msg.append(0)
-		cOsc.send(msg)
-
-		        route = "/raspi%d/canal" % self.rPi_id
-        msg = OSC.OSCMessage()
-	msg.setAddress(route)
-		msg.append(l)
-		cOsc.send(msg)
-
-	def stop_note(self, i, l, s, t):
-               route = "/raspi%d/sinte" % self.rPi_id
-        msg = OSC.OSCMessage()
-	msg.setAddress(route)
-		msg.append(s)
-		cOsc.send(msg)
-
-		       route = "/raspi%d/nota" % self.rPi_id
-        msg = OSC.OSCMessage()
-	msg.setAddress(route)
-		msg.append(i)
-		msg.append(t)
-		cOsc.send(msg)
-
-		       route = "/raspi%d/canal" % self.rPi_id
-        msg = OSC.OSCMessage()
-	msg.setAddress(route)
-		msg.append(l)
 		cOsc.send(msg)
 
 

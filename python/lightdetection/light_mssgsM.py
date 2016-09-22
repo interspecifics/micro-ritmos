@@ -14,11 +14,11 @@ import time, math, io, cPickle, sys
 
 ##  object
 class stateMachine:
-		"""
-		max(bin) -> synth
-		bins -> notes
-		cluster -> channel
-		"""
+	"""
+	max(bin) -> synth
+	bins -> notes
+	cluster -> channel
+	"""
 	def __init__(self, rPi_id, lenVec=0):
 		self.actCount=[0 for i in range(lenVec)]
 		self.antCount=[0 for i in range(lenVec)]
@@ -119,7 +119,7 @@ def recognize(kp_vect, centroids):
 ##  --- ----- --- ----- --- ----- ---- ------ ---- --- - -- --- - - -- - - ##
 if __name__ == "__main__":
 	## const init
-		rId=int(sys.argv[1])
+        rId=int(sys.argv[1])
 	w=320
 	h=240
 	i=0
@@ -136,7 +136,7 @@ if __name__ == "__main__":
 
 	## osc init
 	send_addr = '192.168.1.55', 57121
-		#send_addr = "localhost", 8300
+	#send_addr = "localhost", 8300
 
 	cOsc = OSC.OSCClient()
 	cOsc.connect(send_addr)
@@ -202,7 +202,7 @@ if __name__ == "__main__":
 				if ( len(nD)<1000 ):
 					nD.append(kp_bin)
 				else:
-										print "< TRRainNing >"
+					print "< TRRainNing >"
 					try:
 						samples = np.array(nD, np.float32)
 						temp, clusters_label, means = cv2.kmeans(data=np.asarray(samples),

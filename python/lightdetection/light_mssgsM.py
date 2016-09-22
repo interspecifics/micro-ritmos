@@ -14,11 +14,11 @@ import time, math, io, cPickle, sys
 
 ##  object
 class stateMachine:
-        """
-        max(bin) -> synth
-        bins -> notes
-        cluster -> channel
-        """
+		"""
+		max(bin) -> synth
+		bins -> notes
+		cluster -> channel
+		"""
 	def __init__(self, rPi_id, lenVec=0):
 		self.actCount=[0 for i in range(lenVec)]
 		self.antCount=[0 for i in range(lenVec)]
@@ -45,60 +45,60 @@ class stateMachine:
 		print self.actCount
 
 	def start_note(self, i, l ,s):
-                route = "/raspi%d/sinte" % self.rPi_id
-        msg = OSC.OSCMessage()
-	msg.setAddress(route)
+		route = "/raspi%d/sinte" % self.rPi_id
+		msg = OSC.OSCMessage()
+		msg.setAddress(route)
 		msg.append(s)
 		cOsc.send(msg)
 
-		        route = "/raspi%d/nota" % self.rPi_id
-        msg = OSC.OSCMessage()
-	msg.setAddress(route)
+		route = "/raspi%d/nota" % self.rPi_id
+		msg = OSC.OSCMessage()
+		msg.setAddress(route)
 		msg.append(i)
 		msg.append(0)
 		cOsc.send(msg)
 
-		        route = "/raspi%d/canal" % self.rPi_id
-        msg = OSC.OSCMessage()
-	msg.setAddress(route)
+		route = "/raspi%d/canal" % self.rPi_id
+		msg = OSC.OSCMessage()
+		msg.setAddress(route)
 		msg.append(l)
 		cOsc.send(msg)
 
 	def stop_note(self, i, l, s, t):
-               route = "/raspi%d/sinte" % self.rPi_id
-        msg = OSC.OSCMessage()
-	msg.setAddress(route)
+		route = "/raspi%d/sinte" % self.rPi_id
+		msg = OSC.OSCMessage()
+		msg.setAddress(route)
 		msg.append(s)
 		cOsc.send(msg)
 
-		       route = "/raspi%d/nota" % self.rPi_id
-        msg = OSC.OSCMessage()
-	msg.setAddress(route)
+		route = "/raspi%d/nota" % self.rPi_id
+		msg = OSC.OSCMessage()
+		msg.setAddress(route)
 		msg.append(i)
 		msg.append(t)
 		cOsc.send(msg)
 
-		       route = "/raspi%d/canal" % self.rPi_id
-        msg = OSC.OSCMessage()
-	msg.setAddress(route)
+		route = "/raspi%d/canal" % self.rPi_id
+		msg = OSC.OSCMessage()
+		msg.setAddress(route)
 		msg.append(l)
 		cOsc.send(msg)
 
 
 ##  functions
 def translate(value, inMin, inMax, outMin, outMax):
-    """ like processing's map """
-    inSpan = inMax - inMin
-    outSpan = outMax - outMin
-    transVal = float(value - inMin) / float(inSpan)
-    return outMin + (transVal * outSpan)
+	""" like processing's map """
+	inSpan = inMax - inMin
+	outSpan = outMax - outMin
+	transVal = float(value - inMin) / float(inSpan)
+	return outMin + (transVal * outSpan)
 
 def create_blank(w, h, rgb_color=(0, 0, 0)):
-    """ create new image(numpy array) filled with certain color in rgb """
-    image = np.zeros((h, w), np.uint8)
-    color = tuple(reversed(rgb_color))
-    image[:] = 0
-    return image
+	""" create new image(numpy array) filled with certain color in rgb """
+	image = np.zeros((h, w), np.uint8)
+	color = tuple(reversed(rgb_color))
+	image[:] = 0
+	return image
 
 def binarize_keypoints (binSize, w, kpList):
 	""" the other binarization """
@@ -119,7 +119,7 @@ def recognize(kp_vect, centroids):
 ##  --- ----- --- ----- --- ----- ---- ------ ---- --- - -- --- - - -- - - ##
 if __name__ == "__main__":
 	## const init
-        rId=int(sys.argv[1])
+		rId=int(sys.argv[1])
 	w=320
 	h=240
 	i=0
@@ -135,8 +135,8 @@ if __name__ == "__main__":
 	SM = stateMachine(rId, w/10)
 
 	## osc init
-	send_addr = '192.168.1.62', 57120
-        #send_addr = "localhost", 8300
+	send_addr = '192.168.1.55', 57121
+		#send_addr = "localhost", 8300
 
 	cOsc = OSC.OSCClient()
 	cOsc.connect(send_addr)
@@ -202,7 +202,7 @@ if __name__ == "__main__":
 				if ( len(nD)<1000 ):
 					nD.append(kp_bin)
 				else:
-                                        print "< TRRainNing >"
+										print "< TRRainNing >"
 					try:
 						samples = np.array(nD, np.float32)
 						temp, clusters_label, means = cv2.kmeans(data=np.asarray(samples),

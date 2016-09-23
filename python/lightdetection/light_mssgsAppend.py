@@ -31,7 +31,7 @@ class stateMachine:
 				# start da note
 				#self.start_note(i, l, sum(binList)%7)
 				#self.actCount[i] += 1
-elif binList[i] > 0 and self.actCount[i] > 0:
+			elif binList[i] > 0 and self.actCount[i] > 0:
 				# keep counting
 				self.actCount[i] += 1
 			elif binList[i] == 0 and self.actCount[i] == 0:
@@ -46,7 +46,7 @@ elif binList[i] > 0 and self.actCount[i] > 0:
 		print self.actCount
 
 
-   def stop_note(self, i, l ,s, t):
+   	def stop_note(self, i, l ,s, t):
 		route = "/raspi%d/" % self.rPi_id
 		msg = OSC.OSCMessage()
 		msg.setAddress(route)

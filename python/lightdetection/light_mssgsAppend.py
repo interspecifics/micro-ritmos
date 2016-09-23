@@ -47,14 +47,14 @@ class stateMachine:
 
 
 	def stop_note(self, i, l ,s, t):
-	route = "/raspi%d/" % self.rPi_id
-	msg = OSC.OSCMessage()
-	msg.setAddress(route)
-	msg.append(s)
-	msg.append(i)
-	msg.append(t)
-	msg.append(l)
-	cOsc.send(msg)
+		route = "/raspi%d/" % self.rPi_id
+		msg = OSC.OSCMessage()
+		msg.setAddress(route)
+		msg.append(s)
+		msg.append(i)
+		msg.append(t)
+		msg.append(l)
+		cOsc.send(msg)
 
 
 ##  functions

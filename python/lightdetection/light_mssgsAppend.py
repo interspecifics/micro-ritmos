@@ -31,7 +31,7 @@ class stateMachine:
 				# start da note
 				#self.start_note(i, l, sum(binList)%7)
 				#self.actCount[i] += 1
-	elif binList[i] > 0 and self.actCount[i] > 0:
+elif binList[i] > 0 and self.actCount[i] > 0:
 				# keep counting
 				self.actCount[i] += 1
 			elif binList[i] == 0 and self.actCount[i] == 0:

@@ -1,3 +1,4 @@
+//
 (
 o = Server.local.options; ////variable para cambios en el servidor
 o.numOutputBusChannels = 8; //setea 8 canales 8 de salida ANTES DE BOOTEAR!!

@@ -46,7 +46,7 @@ class stateMachine:
 		print self.actCount
 
 
-   	def stop_note(self, i, l ,s, t):
+    def stop_note(self, i, l ,s, t):
 		route = "/raspi%d/" % self.rPi_id
 		msg = OSC.OSCMessage()
 		msg.setAddress(route)
@@ -54,7 +54,7 @@ class stateMachine:
 		msg.append(i)
 		msg.append(t)
 		msg.append(l)
-		cOsc.send(msg)
+	    cOsc.send(msg)
 
 
 ##  functions

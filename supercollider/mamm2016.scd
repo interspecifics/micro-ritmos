@@ -41,10 +41,10 @@ e.free;
 (
 f = OSCFunc( { | msg, time, addr, port |
 	var pyFreq,pyNharm,pyDetune,pyOut;
-	pyFreq = msg[1]+1*50;
-	pyNharm = msg[2]/2;
-	pyDetune = msg[3];
-	pyOut = msg[4];
+	pyFreq = msg[1]+1*50; //valores originales del 0 al 5
+	pyNharm = msg[2]/2; //valores originales del 1 al 30
+	pyDetune = msg[3]/2;//valores originales del 1 al 100 milisegundos
+	pyOut = msg[4];//valores originales del 1 al 8
 	( "freq is " + pyFreq ).postln;
 	( "nharm " + pyNharm ).postln;
 	( "detune " + pyDetune ).postln;
@@ -54,6 +54,40 @@ f = OSCFunc( { | msg, time, addr, port |
 }, '/raspi1/' );
 )
 f.free
+
+///RASP2
+(
+SynthDef.new(\pruebapara3,{
+	arg freq=400, sustain=0.5,out=0;
+	var sig, amp, env;
+	env = EnvGen.kr(Env.adsr(0.01,0.3,sustain,1),doneAction:2);
+	amp = SinOsc.kr({ExpRand(0.2, 12)}!8));
+	sig = SinOsc.ar({ExpRand(freq, 1)}!8));
+	sig = sig * amp * env;
+	Out.ar(out, sig * 0.01);
+}).add
+)
+
+
+g = Synth.new(\pruebapara3);
+g.set
+g.free;
+(
+h = OSCFunc( { | msg, time, addr, port |
+	var pyRange,pyFreq,pySust,pyOut;
+	//pyRange = msg[1]+1*10; //valores originales del 0 al 5
+	pyFreq = msg[2]*10; //valores originales del 1 al 30
+	pySust = msg[3]/5;//valores originales del 1 al 100 milisegundos
+	pyOut = msg[4];//valores originales del 1 al 8
+	( "range is " + pyRange ).postln;
+	( "freq is " + pyFreq ).postln;
+	( "sustain is " + pySust ).postln;
+	( "channel is " + pyOut).postln;
+	g.set(\freq,pyFreq, \sustain,pySust, \out, pyOut,
+		 );
+}, '/raspi1/' );
+)
+h.free
 
 
 

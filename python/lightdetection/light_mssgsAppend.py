@@ -114,7 +114,7 @@ if __name__ == "__main__":
 	cOsc.connect(send_addr)
 
 	## ml init
-	n_clusters = 6
+	n_clusters = 8
 	means = cPickle.load(open('centroids.cpk','r'))
 
 	# detector init

@@ -1,31 +1,46 @@
 
 
 // Configuration *******************************************************
-//gui button iniciate signal
-((
+///// 1.1 gui button iniciate signal
+(
 var value = 0.5;
 w = Window.new.front;
 
 // (1) create a UserView
 v = UserView(w,Rect(50,50,200,20));
+
 // (2) define a drawing function using Pen
 v.drawFunc = {
-	  // Draw the frame
+
+	    // Draw the frame
    // Pen.strokeColor = Color.black;
     //Pen.addRect(Rect(0,10, v.bounds.width+100,v.bounds.height+100));
     //Pen.stroke;
 
+
     // Draw the button
     b = Button(w, Rect(100,100,200,60)).states_([
 	["Iniciar Programa",Color.white(0.1),Color.black(0.0)],
+]);
+	// Draw the button
+    l = Button(w, Rect(100,170,200,60)).states_([
+	["Rutina de prueba",Color.white(0.1),Color.black(0.0)],
 
 ]);
 };
 
 // (3) set the default action
-v.action = {value.postln; v.refresh};
+v.action = {
+  //INICIAR EL SERVIDOR 1.2
+  value.postln; v.refresh};
 
-StaticText(w,Rect(100,200,350,50)).string_("
+  //CORRER RUTINA DE PRUEBA 
+
+a = StaticText(w,Rect(100,50,350,50)).string_("
+MICRO-RITMOS
+");
+
+b = StaticText(w,Rect(100,250,350,50)).string_("
 - 1 Presione boton encender
 - 2 espere que inici super collider
 - 3 encienda las luces 1 al 3
@@ -34,7 +49,7 @@ StaticText(w,Rect(100,200,350,50)).string_("
 
 )
 
-///////// INICIA SERVER Y MOTU ////////
+///////// 1.2 INICIA SERVER Y MOTU ////////
 
 (
 o = Server.local.options; ////variable para cambios en el servidor

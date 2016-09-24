@@ -29,7 +29,7 @@ q.allchannels = [\1, \2, \3, \4, \5, \6, \7, \8, ];
 
 
 //SynthDef(s) *******************************************************
-
+// tendriamos 6 tipos diferentes
 (
 SynthDef.new(\uno,{
 	arg freq=40, nharm=12, detune=0.2, gate=0, pan=0,
@@ -62,16 +62,15 @@ SynthDef.new(\dos,{
 
 
 // OSC function *******************************************************
-
-//tenemos 3 raspberrys que estan enviando datos independientes
+//recibimos desde 3 rutas de raspberrys que estan enviando datos independientes
 
 x = OSCFunc( { | msg, time, addr, port |
     var pySintA, pyNoteA, pyTimeA, pyChannelA;
 
-    pySintA = msg[1].asFunction;
-	pyNoteA = msg[2].asFunction;
-  pyTimeA = msg[3].asFunction;
-	pyChannelA = msg [4].asFunction;
+    pySintA = msg[1].asFunction; // 0 - 6 int
+	pyNoteA = msg[2].asFunction; // 0 - 30  int
+  pyTimeA = msg[3].asFunction; // 0 - 400  int
+	pyChannelA = msg [4].asFunction; // 0 - 8 int
     ( "SintA is " + pySintA ).postln;
 	("NoteA is"+ pyNoteA).portln;
   ("TimeA is" + pyTimeA).portln;
@@ -84,12 +83,12 @@ x = OSCFunc( { | msg, time, addr, port |
 )
 
 y = OSCFunc( { | msg, time, addr, port |
-    var pySint, pyNote, pyTime, pyChannel;
+    var pySintB, pyNoteB, pyTimeB, pyChannelB;
 
-    pySint = msg[1].asFunction;
-	pyNote = msg[2].asFunction;
-  pyTime = msg[3].asFunction;
-	pyChannel = msg [4].asFunction;
+    pySint = msg[1].asFunction; // 0 -6 int
+	pyNote = msg[2].asFunction; // 0 - 30 int
+  pyTime = msg[3].asFunction; // 0 - 400 int
+	pyChannel = msg [4].asFunction; // 0 - 8 int
     ( "Sint is " + pySint ).postln;
 	("Note is"+ pyNote).portln;
   ("Time is" + pyTime).portln;
@@ -104,6 +103,8 @@ y = OSCFunc( { | msg, time, addr, port |
 
 // logica de seleccion *************************************************************
 // selecionar que sinte y en que canal se toca de acuerdo a los datos osc
+// 6 sintes
+// 8 canales
 
 q.initPlaySints = {
 	q.currPlaySints = ();
@@ -128,3 +129,10 @@ if (q.currPlaySints = 1) {
     g.set
     g.free;
   };
+
+  // sobre la espacialización.
+  // calcular el bus en el que se encuentra el sinte y moverlo logaritmico hasta la siguiente
+  // posicion en el array de buses.
+
+ // [1 -8 se desplaza por 7 canales hasta el 8 ]
+ // [2- 5 se desplaza por 2 canales hasta el 5] etc 

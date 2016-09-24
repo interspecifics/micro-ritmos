@@ -2,16 +2,36 @@
 
 // Configuration *******************************************************
 //gui button iniciate signal
-(
-w = Window("GUI Introduction").background_(Color.black(0.0)).front;
-b = Button(w, Rect(100,100,200,60)).states_([
+((
+var value = 0.5;
+w = Window.new.front;
+
+// (1) create a UserView
+v = UserView(w,Rect(50,50,200,20));
+// (2) define a drawing function using Pen
+v.drawFunc = {
+	  // Draw the frame
+   // Pen.strokeColor = Color.black;
+    //Pen.addRect(Rect(0,10, v.bounds.width+100,v.bounds.height+100));
+    //Pen.stroke;
+
+    // Draw the button
+    b = Button(w, Rect(100,100,200,60)).states_([
 	["Iniciar Programa",Color.white(0.1),Color.black(0.0)],
 
 ]);
-l = Button(w, Rect(100,180,200,60)).states_([
-    ["Iniciar Motu",Color.rand,Color.rand],
+};
 
-]);
+// (3) set the default action
+v.action = {value.postln; v.refresh};
+
+StaticText(w,Rect(100,200,350,50)).string_("
+- 1 Presione boton encender
+- 2 espere que inici super collider
+- 3 encienda las luces 1 al 3
+- 4 encienda raspberrys
+- 5 encienda bocinas ");
+
 )
 
 ///////// INICIA SERVER Y MOTU ////////

@@ -1,7 +1,21 @@
 
 
 // Configuration *******************************************************
-//gui button for iniciate signal
+//gui button iniciate signal
+(
+w = Window("GUI Introduction").background_(Color.black(0.0)).front;
+b = Button(w, Rect(100,100,200,60)).states_([
+	["Iniciar Programa",Color.white(0.1),Color.black(0.0)],
+
+]);
+l = Button(w, Rect(100,180,200,60)).states_([
+    ["Iniciar Motu",Color.rand,Color.rand],
+
+]);
+)
+
+///////// INICIA SERVER Y MOTU ////////
+
 (
 o = Server.local.options; ////variable para cambios en el servidor
 o.numOutputBusChannels = 8; //setea 8 canales 8 de salida ANTES DE BOOTEAR!!
@@ -30,6 +44,9 @@ q.allchannels = [\1, \2, \3, \4, \5, \6, \7, \8, ];
 
 //SynthDef(s) *******************************************************
 // tendriamos 6 tipos diferentes
+// cada uno tiene sus argumentos variables ligados al osc
+
+// ------------UNO-------------------------------//
 (
 SynthDef.new(\uno,{
 	arg freq=40, nharm=12, detune=0.2, gate=0, pan=0,
@@ -48,6 +65,8 @@ SynthDef.new(\uno,{
 }).add
 )
 
+// ------------DOS-------------------------------//
+
 
 SynthDef.new(\dos,{
 	arg freq=400, sustain=0.5,out=0;
@@ -60,11 +79,16 @@ SynthDef.new(\dos,{
 }).add
 )
 
-// agregar ruido
+// ------------Tres-------------------------------//
+ {WhiteNoise.ar(0.1)!2}.play; //falta hacerlo SynthDef
+//
+///////////////////////////////////////////////////////////////////////
+
 
 // OSC function *******************************************************
 //recibimos desde 3 rutas de raspberrys que estan enviando datos independientes
 
+// ================UNO=================================//
 x = OSCFunc( { | msg, time, addr, port |
 	var pyFreq,pyNharm,pyDetune,pyOut;
 	pyFreq = msg[1]; //valores originales del 0 al 5
@@ -79,6 +103,8 @@ x = OSCFunc( { | msg, time, addr, port |
 		 );
 }, '/raspi1/' );
 
+
+// ================DOS=================================//
 
 f = OSCFunc( { | msg, time, addr, port |
     var pyFreq,pyNharm,pyDetune,pyOut;
@@ -95,7 +121,7 @@ f = OSCFunc( { | msg, time, addr, port |
   g.set(\freq,pyFreq, \nharm,pyNharm, \detune,pyDetune * 2, \out, pyOut.asFlot * 3, // para las caracteriticas del sinte
 }, '/raspi2' );
 
-
+// ================TRES=================================//
 
 y = OSCFunc( { | msg, time, addr, port |
     var pySintB, pyNoteB, pyTimeB, pyChannelB;

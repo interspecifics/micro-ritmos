@@ -5,24 +5,22 @@
 (
 var value = 0.5;
 w = Window.new.front;
-
 // (1) create a UserView
 v = UserView(w,Rect(50,50,200,20));
 
-// (2) define a drawing function using Pen
+// (2) define a drawing function
 v.drawFunc = {
 
-	    // Draw the frame
+	  // Draw the frame
    // Pen.strokeColor = Color.black;
     //Pen.addRect(Rect(0,10, v.bounds.width+100,v.bounds.height+100));
     //Pen.stroke;
 
-
-    // Draw the button
+    // Draw the button INICIAR
     b = Button(w, Rect(100,100,200,60)).states_([
 	["Iniciar Programa",Color.white(0.1),Color.black(0.0)],
 ]);
-	// Draw the button
+	// Draw the button RUTINA
     l = Button(w, Rect(100,170,200,60)).states_([
 	["Rutina de prueba",Color.white(0.1),Color.black(0.0)],
 
@@ -34,7 +32,7 @@ v.action = {
   //INICIAR EL SERVIDOR 1.2
   value.postln; v.refresh};
 
-  //CORRER RUTINA DE PRUEBA 
+  //CORRER RUTINA DE PRUEBA 1.3
 
 a = StaticText(w,Rect(100,50,350,50)).string_("
 MICRO-RITMOS
@@ -51,6 +49,8 @@ b = StaticText(w,Rect(100,250,350,50)).string_("
 
 ///////// 1.2 INICIA SERVER Y MOTU ////////
 
+// Fijar el puerto al 57120
+
 (
 o = Server.local.options; ////variable para cambios en el servidor
 o.numOutputBusChannels = 8; //setea 8 canales 8 de salida ANTES DE BOOTEAR!!
@@ -59,7 +59,9 @@ o.device = "MOTU 896mk3 Hybrid"; //setea tarjeta de audio
 o.outDevice.postln; //imprimir dispositivo de salida
 s.boot; ///bootear servidos
 )
-// test rutine
+
+
+//////// 1.3 test rutine
 ///prueba de bocinas una por una
 p = ProxySpace.push;
 ~test1 = { SinOsc.ar([1] * 100) * 0.1 };
@@ -135,6 +137,7 @@ x = OSCFunc( { | msg, time, addr, port |
 	( "detune " + pyDetune ).postln;
 	( "channel is " + pyOut).postln;
 	e.set(\freq,pyFreq + 1 * 50, \nharm,pyNharm * 2, \detune,pyDetune /2.5, \out, pyOut,
+  hx.set( \SintA, pyFreq, \NoteA, pyNharm, \TimeA, pyDetune, \channelA, pyOut ); // para la salida logica
 		 );
 }, '/raspi1/' );
 
@@ -152,7 +155,7 @@ f = OSCFunc( { | msg, time, addr, port |
   ( "nharm " + pyNharm ).postln;
   ( "detune " + pyDetune ).postln;
   ( "channel is " + pyOut).postln;
-	h.set( \SintA, pyFreq, \NoteA, pyNharm, \TimeA, pyDetune, \channelA, pyOut ); // para la salida logica
+	hF.set( \SintA, pyFreq, \NoteA, pyNharm, \TimeA, pyDetune, \channelA, pyOut ); // para la salida logica
   g.set(\freq,pyFreq, \nharm,pyNharm, \detune,pyDetune * 2, \out, pyOut.asFlot * 3, // para las caracteriticas del sinte
 }, '/raspi2' );
 
@@ -193,6 +196,13 @@ q.initPlaySints = {
 	q.currPlaySints;
 };
 
+/// Hacer la relación de sinte entrante, canal, tiempo y nota para que
+// se genere un evento
+
+if (q.currPlaySints == 0, { e = Synth.new(\uno); pyTimeA.wait; e.free;});
+if (q.currPlaySints == 1, { g = Synth.new(\dos); pyTimeA.wait; g.free;});
+
+
 
 if (q.currPlaySints = 0) {
 		e = Synth.new(\uno);
@@ -217,3 +227,6 @@ if (q.currPlaySints = 1) {
 [ 1 > 3] [1<3]
 [ 1 > 4  [1<4]
 [ 1 > 5] [1<5]
+
+
+/////////////////liberal los synthdefs

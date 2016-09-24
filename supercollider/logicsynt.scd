@@ -65,22 +65,36 @@ SynthDef.new(\dos,{
 //recibimos desde 3 rutas de raspberrys que estan enviando datos independientes
 
 x = OSCFunc( { | msg, time, addr, port |
-    var pySintA, pyNoteA, pyTimeA, pyChannelA;
+	var pyFreq,pyNharm,pyDetune,pyOut;
+	pyFreq = msg[1]+1*50; //valores originales del 0 al 5
+	pyNharm = msg[2]*2; //valores originales del 1 al 30
+	pyDetune = msg[3]/2.5;//valores originales del 1 al 100 milisegundos
+	pyOut = msg[4];//valores originales del 1 al 8
+	( "freq is " + pyFreq ).postln;
+	( "nharm " + pyNharm ).postln;
+	( "detune " + pyDetune ).postln;
+	( "channel is " + pyOut).postln;
+	e.set(\freq,pyFreq, \nharm,pyNharm, \detune,pyDetune, \out, pyOut,
+		 );
+}, '/raspi1/' );
 
-    pySintA = msg[1].asFunction; // 0 - 6 int
-	pyNoteA = msg[2].asFunction; // 0 - 30  int
-  pyTimeA = msg[3].asFunction; // 0 - 400  int
-	pyChannelA = msg [4].asFunction; // 0 - 8 int
-    ( "SintA is " + pySintA ).postln;
-	("NoteA is"+ pyNoteA).portln;
-  ("TimeA is" + pyTimeA).portln;
-	( "ChannelA is " + pyChannelA ).postln;
-	h.set( \SintA, pySint,
-		\NoteA, pyNote,
-    \TimeA, pyTime,
-		\channelA, pyChannel );
-}, '/raspi1' );
-)
+
+f = OSCFunc( { | msg, time, addr, port |
+    var pyFreq,pyNharm,pyDetune,pyOut;
+
+  pyFreq  = msg[1].asFunction; // 0 - 6 int
+	pyNharm = msg[2].asFunction; // 0 - 30  int
+  pyDetune = msg[3].asFunction; // 0 - 400  int
+	pyOut = msg [4].asFunction; // 0 - 8 int
+  ( "freq is " + pyFreq ).postln;
+  ( "nharm " + pyNharm ).postln;
+  ( "detune " + pyDetune ).postln;
+  ( "channel is " + pyOut).postln;
+	h.set( \SintA, pyFreq, \NoteA, pyNharm, \TimeA, pyDetune, \channelA, pyOut ); // para la salida logica
+  g.set(\freq,pyFreq, \nharm,pyNharm, \detune,pyDetune, \out, pyOut, // para las caracteriticas del sinte
+}, '/raspi2' );
+
+
 
 y = OSCFunc( { | msg, time, addr, port |
     var pySintB, pyNoteB, pyTimeB, pyChannelB;
@@ -97,7 +111,7 @@ y = OSCFunc( { | msg, time, addr, port |
 		\note, pyNote,
     \time, pyTime,
 		\channel, pyChannel );
-}, '/raspi2' );
+}, '/raspi3' );
 )
 
 
@@ -119,7 +133,7 @@ q.initPlaySints = {
 
 
 if (q.currPlaySints = 0) {
-		Pe = Synth.new(\uno);
+		e = Synth.new(\uno);
     pyTimeA.wait;
     e.free;
 	};
@@ -135,4 +149,4 @@ if (q.currPlaySints = 1) {
   // posicion en el array de buses.
 
  // [1 -8 se desplaza por 7 canales hasta el 8 ]
- // [2- 5 se desplaza por 2 canales hasta el 5] etc 
+ // [2- 5 se desplaza por 2 canales hasta el 5] etc

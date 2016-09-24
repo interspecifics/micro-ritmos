@@ -21,7 +21,7 @@ p = ProxySpace.push;
 (
 
 SynthDef(\uno,{
-	arg freq=80, nharm=20, detune=0.5,amp=0.04,out=0;
+	arg freq=80, nharm=20, detune=0.5,amp=1,out=0;
 	var sig, env;
 	env = EnvGen.kr(Env.adsr(0.05,0.1,0.5,3),doneAction:2);
 	sig = Blip.ar(
@@ -33,17 +33,14 @@ SynthDef(\uno,{
 
 }).add;
 )
-e = Synth.new(\uno)
-e.set(\amp,0.5);
+e = Synth.new(\uno);
 e.free;
 
-
-(
 f = OSCFunc( { | msg, time, addr, port |
 	var pyFreq,pyNharm,pyDetune,pyOut;
 	pyFreq = msg[1]+1*50; //valores originales del 0 al 5
-	pyNharm = msg[2]/2; //valores originales del 1 al 30
-	pyDetune = msg[3]/2;//valores originales del 1 al 100 milisegundos
+	pyNharm = msg[2]*2; //valores originales del 1 al 30
+	pyDetune = msg[3]/2.5;//valores originales del 1 al 100 milisegundos
 	pyOut = msg[4];//valores originales del 1 al 8
 	( "freq is " + pyFreq ).postln;
 	( "nharm " + pyNharm ).postln;
@@ -51,13 +48,16 @@ f = OSCFunc( { | msg, time, addr, port |
 	( "channel is " + pyOut).postln;
 	e.set(\freq,pyFreq, \nharm,pyNharm, \detune,pyDetune, \out, pyOut,
 		 );
-}, '/raspi1/' );
+}, '/raspi2/' );
+
+f.free;
+
 )
-f.free
+
 
 ///RASP2
 (
-SynthDef.new(\pruebapara3,{
+SynthDef.new(\pruebapara2,{
 	arg freq=400, sustain=0.5,out=0;
 	var sig, amp, env;
 	env = EnvGen.kr(Env.adsr(0.01,0.3,sustain,1),doneAction:2);
@@ -69,7 +69,7 @@ SynthDef.new(\pruebapara3,{
 )
 
 
-g = Synth.new(\pruebapara3);
+g = Synth.new(\pruebapara2);
 g.set
 g.free;
 (
@@ -88,6 +88,30 @@ h = OSCFunc( { | msg, time, addr, port |
 }, '/raspi1/' );
 )
 h.free
+
+
+///RASP2
+
+(
+g = Synth.new(\pruebapara3);
+
+(
+h = OSCFunc( { | msg, time, addr, port |
+	var pyRange,pyFreq,pySust,pyOut;
+	//pyRange = msg[1]+1*10; //valores originales del 0 al 5
+	pyFreq = msg[2]*10; //valores originales del 1 al 30
+	pySust = msg[3]/5;//valores originales del 1 al 100 milisegundos
+	pyOut = msg[4];//valores originales del 1 al 8
+	( "range is " + pyRange ).postln;
+	( "freq is " + pyFreq ).postln;
+	( "sustain is " + pySust ).postln;
+	( "channel is " + pyOut).postln;
+	g.set(\freq,pyFreq, \sustain,pySust, \out, pyOut,
+		 );
+}, '/raspi3/' );
+)
+i.free
+)
 
 
 

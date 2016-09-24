@@ -60,21 +60,22 @@ SynthDef.new(\dos,{
 }).add
 )
 
+// agregar ruido
 
 // OSC function *******************************************************
 //recibimos desde 3 rutas de raspberrys que estan enviando datos independientes
 
 x = OSCFunc( { | msg, time, addr, port |
 	var pyFreq,pyNharm,pyDetune,pyOut;
-	pyFreq = msg[1]+1*50; //valores originales del 0 al 5
-	pyNharm = msg[2]*2; //valores originales del 1 al 30
-	pyDetune = msg[3]/2.5;//valores originales del 1 al 100 milisegundos
+	pyFreq = msg[1]; //valores originales del 0 al 5
+	pyNharm = msg[2]; //valores originales del 1 al 30
+	pyDetune = msg[3];//valores originales del 1 al 100 milisegundos
 	pyOut = msg[4];//valores originales del 1 al 8
 	( "freq is " + pyFreq ).postln;
 	( "nharm " + pyNharm ).postln;
 	( "detune " + pyDetune ).postln;
 	( "channel is " + pyOut).postln;
-	e.set(\freq,pyFreq, \nharm,pyNharm, \detune,pyDetune, \out, pyOut,
+	e.set(\freq,pyFreq + 1 * 50, \nharm,pyNharm * 2, \detune,pyDetune /2.5, \out, pyOut,
 		 );
 }, '/raspi1/' );
 
@@ -91,7 +92,7 @@ f = OSCFunc( { | msg, time, addr, port |
   ( "detune " + pyDetune ).postln;
   ( "channel is " + pyOut).postln;
 	h.set( \SintA, pyFreq, \NoteA, pyNharm, \TimeA, pyDetune, \channelA, pyOut ); // para la salida logica
-  g.set(\freq,pyFreq, \nharm,pyNharm, \detune,pyDetune, \out, pyOut, // para las caracteriticas del sinte
+  g.set(\freq,pyFreq, \nharm,pyNharm, \detune,pyDetune * 2, \out, pyOut.asFlot * 3, // para las caracteriticas del sinte
 }, '/raspi2' );
 
 
@@ -150,3 +151,8 @@ if (q.currPlaySints = 1) {
 
  // [1 -8 se desplaza por 7 canales hasta el 8 ]
  // [2- 5 se desplaza por 2 canales hasta el 5] etc
+
+[ 1 > 2] [1<2]
+[ 1 > 3] [1<3]
+[ 1 > 4  [1<4]
+[ 1 > 5] [1<5]

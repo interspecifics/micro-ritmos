@@ -13,7 +13,7 @@ s.boot; ///bootear servidos
 ///prueba de bocinas una por una
 p = ProxySpace.push;
 ~test1 = { SinOsc.ar([1] * 100) * 0.1 };
-~test1.play(1); //aqui número de bocina
+~test1.play(0); //aqui número de bocina
 ~test1.stop
 
 
@@ -97,7 +97,7 @@ h.free
 ///RASP3
 
 
-
+(
     ~buf2= Buffer.alloc(s, 512,1);
 	~buf2.sine1(1/Array.fill(10,{|i| i+1}));
 

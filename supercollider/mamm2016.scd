@@ -96,7 +96,7 @@ h.free
 
 ///RASP3
 
-(
+
 
     ~buf2= Buffer.alloc(s, 512,1);
 	~buf2.sine1(1/Array.fill(10,{|i| i+1}));

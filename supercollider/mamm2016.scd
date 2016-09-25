@@ -96,35 +96,35 @@ h.free
 
 ///RASP3
 
-
 (
-g= {
-    PanAz.ar(
-        8,                 // numChans
-        ClipNoise.ar,     // in
-        LFSaw.kr(LFNoise1.kr(0.3).unipolar),0.01,2,0.5
-    );
-}
+SynthDef(\drone1, {|out= 0, gate= 1, amp= 0.25,
+modFreq=1, freq1=64, freq2=65, mul1=1, mul2=1|
+	var env, mod, a, b, mixer;
+	env = EnvGen.ar(Env.asr(0.01, 1, 0.5), gate, doneAction:2);
+	mod = LFTri.ar(modFreq);
+	a = Osc.ar (~buf2, freq1,  mod, mul1);
+	b = Osc.ar (~buf2, freq2, mod,  mul2);
+	mixer= Mix.new([a,b]);
+	Out.ar(out, mixer * (env *amp));
+}).add;
 )
-g.play;
 
 
-(
-g = Synth.new(\pruebapara3);
+g = Synth(\drone1);
 
 
 (
 i = OSCFunc( { | msg, time, addr, port |
-	var pyRange,pyFreq,pySust,pyOut;
-	//pyRange = msg[1]+1*10; //valores originales del 0 al 5
-	pyFreq = msg[2]*10; //valores originales del 1 al 30
-	pySust = msg[3]/5;//valores originales del 1 al 100 milisegundos
-	pyOut = msg[4];//valores originales del 1 al 8
-	( "range is " + pyRange ).postln;
-	( "freq is " + pyFreq ).postln;
-	( "sustain is " + pySust ).postln;
-	( "channel is " + pyOut).postln;
-	g.set(\freq,pyFreq, \sustain,pySust, \out, pyOut,
+	var pymodFreq,pyFreq1,pyFreq2;
+	pymodFreq = msg[1]; //valores originales del 0 al 5
+	pyFreq1 = msg[2]*10; //valores originales del 1 al 30
+	pyFreq2 = msg[3].asFloat/5;//valores originales del 1 al 100 milisegundos
+	//py = msg[4];//valores originales del 1 al 8
+	( "/raspi3/modFreq " + pymodFreq ).postln;
+	( "/raspi3/freq1 " + pyFreq1 ).postln;
+	( "/raspi3/freq2 " + pyFreq2 ).postln;
+	//( "channel is " + pyOut).postln;
+	g.set(\modFreq,pymodFreq, \freq1,pyFreq1, \freq2,pyFreq2
 		 );
 }, '/raspi3/' );
 )

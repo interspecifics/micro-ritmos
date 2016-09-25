@@ -97,13 +97,17 @@ h.free
 ///RASP3
 
 (
+
+    ~buf2= Buffer.alloc(s, 512,1);
+	~buf2.sine1(1/Array.fill(10,{|i| i+1}));
+
 SynthDef(\drone1, {|out= 0, gate= 1, amp= 0.25,
-modFreq=1, freq1=64, freq2=65, mul1=1, mul2=1|
+modFreq=1, freq1=64, freq2=65, mul1=0.5, mul2=0.5|
 	var env, mod, a, b, mixer;
 	env = EnvGen.ar(Env.asr(0.01, 1, 0.5), gate, doneAction:2);
 	mod = LFTri.ar(modFreq);
-	a = Osc.ar (~buf2, freq1,  mod, mul1);
-	b = Osc.ar (~buf2, freq2, mod,  mul2);
+	a = Osc.ar (~buf2, freq1,  mod, mul1)!8;
+	b = Osc.ar (~buf2, freq2, mod,  mul2)!8;
 	mixer= Mix.new([a,b]);
 	Out.ar(out, mixer * (env *amp));
 }).add;

@@ -203,7 +203,7 @@ void loop() {
       digitalWrite(RelayBoard1[p - 1], 0);
       delay(bio);
       digitalWrite(RelayBoard1[p], 1);
-      delay(bio * 2);
+      delay(bio);
     }
   }
   
@@ -217,7 +217,7 @@ void loop() {
       digitalWrite(RelayBoard1[p + 1], 0);
       delay(bio);
       digitalWrite(RelayBoard1[p], 1);
-      delay(bio * 2);
+      delay(bio);
     }
     for (p = 7; p > 0; p--) {
       digitalWrite(RelayBoard1[p], 0);
@@ -225,7 +225,7 @@ void loop() {
       digitalWrite(RelayBoard1[p - 1], 0);
       delay(bio);
       digitalWrite(RelayBoard1[p], 1);
-      delay(bio * 2);
+      delay(bio );
     }
   }
 }

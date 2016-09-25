@@ -8,45 +8,40 @@ w = Window.new.front;
 // (1) create a UserView
 v = UserView(w,Rect(50,50,200,20));
 
-// (2) define a drawing function
-v.drawFunc = {
-
-	  // Draw the frame
-   // Pen.strokeColor = Color.black;
-    //Pen.addRect(Rect(0,10, v.bounds.width+100,v.bounds.height+100));
-    //Pen.stroke;
-
-    // Draw the button INICIAR
-    b = Button(w, Rect(100,100,200,60)).states_([
-	["Iniciar Programa",Color.white(0.1),Color.black(0.0)],
-]);
-	// Draw the button RUTINA
-    l = Button(w, Rect(100,170,200,60)).states_([
-	["Rutina de prueba",Color.white(0.1),Color.black(0.0)],
-
-]);
+// (2) set the default action
+~action = {
+o = Server.local.options; ////variable para cambios en el servidor
+o.numOutputBusChannels = 8; //setea 8 canales 8 de salida ANTES DE BOOTEAR!!
+o.numOutputBusChannels.postln;/// imprime canales de salida habilitados
+o.device = "MOTU 896mk3 Hybrid"; //setea tarjeta de audio
+o.outDevice.postln; //imprimir dispositivo de salida
+s.boot; ///bootear servidos
 };
 
-// (3) set the default action
-v.action = {
-  //INICIAR EL SERVIDOR 1.2
-  value.postln; v.refresh};
+~action2 = {
+// aquí va la rutina de prueba
+};
 
-  //CORRER RUTINA DE PRUEBA 1.3
+// (3) define a drawing function
+v.drawFunc = {
+   // Draw the button
+	b = Button(w, Rect(100,100,200,60)).states_([["Iniciar Programa",Color.white(0.1),Color.black(0.0)]]).action_(~action);
+	l = Button(w, Rect(100,170,200,60)).states_([["Rutina de prueba",Color.white(0.1),Color.black(0.0)]]).action_(~action2);
+};
 
-a = StaticText(w,Rect(100,50,350,50)).string_("
-MICRO-RITMOS
-");
+a = StaticText(w,Rect(100,50,350,50)).string_("MICRO-RITMOS");
 
-b = StaticText(w,Rect(100,250,350,50)).string_("
+b = StaticText(w,Rect(100,230,350,100)).string_("
 - 1 Presione boton encender
 - 2 espere que inici super collider
 - 3 encienda las luces 1 al 3
 - 4 encienda raspberrys
 - 5 encienda bocinas ");
 
-)
+~action.value;
+~action2.value;
 
+)
 ///////// 1.2 INICIA SERVER Y MOTU ////////
 
 // Fijar el puerto al 57120

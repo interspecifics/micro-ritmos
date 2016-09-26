@@ -155,33 +155,6 @@ OSCFunc.newMatching({ | msg, time, addr, port |
             out: out_channel % ~num_outs
          ]);
 
-
-		~synths[ 1 ][ \pi1_synth2 ] = Synth(
-         \pi1_synth2,
-         [
-			freq1: param1.rrand(60,80),
-			freq2: param1.rrand(60,80),
-            dur: param2,
-            out: out_channel % ~num_outs
-         ]);
-
-			~synths[ 1 ][ \pi1_synth3 ] = Synth(
-         \pi1_synth3,
-         [
-			freq: param1.rrand(45,80).midicps,
-            dur: param2,
-            out: out_channel % ~num_outs
-         ]);
-
-
-		~synths[ 1 ][ \pi1_synth4 ] = Synth(
-         \pi1_synth4,
-         [
-            freq: param1,
-			dur: param2,
-            out: out_channel % ~num_outs
-         ]);
-
    }, {});
 
 }, '/raspi1/' );
@@ -219,32 +192,6 @@ OSCFunc.newMatching({ | msg, time, addr, port |
             out: out_channel % ~num_outs
          ]);
 
-
-		~synths[ 2 ][ \pi2_synth2 ] = Synth(
-         \pi2_synth2,
-         [
-			freq1: param1.rrand(60,80),
-			freq2: param1.rrand(60,80),
-            dur: param2,
-            out: out_channel % ~num_outs
-         ]);
-
-			~synths[ 2 ][ \pi2_synth3 ] = Synth(
-         \pi2_synth3,
-         [
-			freq: param1.rrand(45,80).midicps,
-            dur: param2,
-            out: out_channel % ~num_outs
-         ]);
-
-
-		~synths[ 2 ][ \pi2_synth4 ] = Synth(
-         \pi2_synth4,
-         [
-            freq: param1,
-			dur: param2,
-            out: out_channel % ~num_outs
-         ]);
    }, {});
 
 }, '/raspi2/' );
@@ -282,34 +229,6 @@ OSCFunc.newMatching({ | msg, time, addr, port |
             dur: param2,
             out: out_channel % ~num_outs
          ]);
-
-
-		~synths[ 3 ][ \pi3_synth2 ] = Synth(
-         \pi3_synth2,
-         [
-			freq1: param1.rrand(60,80),
-			freq2: param1.rrand(60,80),
-            dur: param2,
-            out: out_channel % ~num_outs
-         ]);
-
-			~synths[ 3 ][ \pi3_synth3 ] = Synth(
-         \pi3_synth3,
-         [
-			freq: param1.rrand(45,80).midicps,
-            dur: param2,
-            out: out_channel % ~num_outs
-         ]);
-
-
-		~synths[ 3 ][ \pi3_synth4 ] = Synth(
-         \pi3_synth4,
-         [
-            freq: param1,
-			dur: param2,
-            out: out_channel % ~num_outs
-         ]);
-
 
    }, {});
 

@@ -1,4 +1,4 @@
-s.boot;
+ s.boot;
 
 
 (
@@ -277,8 +277,8 @@ OSCFunc.newMatching({ | msg, time, addr, port |
       ~synths[ 1 ][ \pi1_synth1 ] = Synth(
          \pi1_synth1,
          [
-			freq1: param1.rrand(100,300),
-			freq2: param1.rrand(200,400),
+			freq1: param1,
+			freq2: param1,
             dur: param2,
             out: out_channel % ~num_outs
          ]);
@@ -287,8 +287,8 @@ OSCFunc.newMatching({ | msg, time, addr, port |
 		~synths[ 1 ][ \pi1_synth2 ] = Synth(
          \pi1_synth2,
          [
-			freq1: param1.rrand(60,80),
-			freq2: param1.rrand(60,80),
+			freq1: param1,
+			freq2: param1,
             dur: param2,
             out: out_channel % ~num_outs
          ]);
@@ -296,7 +296,7 @@ OSCFunc.newMatching({ | msg, time, addr, port |
 			~synths[ 1 ][ \pi1_synth3 ] = Synth(
          \pi1_synth3,
          [
-			freq: param1.rrand(45,80).midicps,
+			freq: param1,
             dur: param2,
             out: out_channel % ~num_outs
          ]);
@@ -341,8 +341,8 @@ OSCFunc.newMatching({ | msg, time, addr, port |
      ~synths[ 2 ][ \pi2_synth1 ] = Synth(
          \pi2_synth1,
          [
-				freq1: param1.rrand(100,300),
-			freq2: param1.rrand(200,400),
+				freq1: param1,
+			freq2: param1,
             dur: param2,
             out: out_channel % ~num_outs
          ]);
@@ -351,16 +351,15 @@ OSCFunc.newMatching({ | msg, time, addr, port |
 		~synths[ 2 ][ \pi2_synth2 ] = Synth(
          \pi2_synth2,
          [
-			freq1: param1.rrand(60,80),
-			freq2: param1.rrand(60,80),
-            dur: param2,
+			freq1: param1,
+			freq2: param1,
             out: out_channel % ~num_outs
          ]);
 
 			~synths[ 2 ][ \pi2_synth3 ] = Synth(
          \pi2_synth3,
          [
-			freq: param1.rrand(45,80).midicps,
+			freq: param1,
             dur: param2,
             out: out_channel % ~num_outs
          ]);
@@ -405,8 +404,8 @@ OSCFunc.newMatching({ | msg, time, addr, port |
 		~synths[ 3 ][ \pi3_synth1 ] = Synth(
          \pi3_synth1,
          [
-			freq1: param1.rrand(100,300),
-			freq2: param1.rrand(200,400),
+			freq1: param1,
+			freq2: param1,
             dur: param2,
             out: out_channel % ~num_outs
          ]);
@@ -415,8 +414,8 @@ OSCFunc.newMatching({ | msg, time, addr, port |
 		~synths[ 3 ][ \pi3_synth2 ] = Synth(
          \pi3_synth2,
          [
-			freq1: param1.rrand(60,80),
-			freq2: param1.rrand(60,80),
+			freq1: param1,
+			freq2: param1,
             dur: param2,
             out: out_channel % ~num_outs
          ]);
@@ -424,7 +423,7 @@ OSCFunc.newMatching({ | msg, time, addr, port |
 			~synths[ 3 ][ \pi3_synth3 ] = Synth(
          \pi3_synth3,
          [
-			freq: param1.rrand(45,80).midicps,
+			freq: param1,
             dur: param2,
             out: out_channel % ~num_outs
          ]);

@@ -54,6 +54,7 @@ f.free;
 
 ///RASP2
 (
+<<<<<<< HEAD
 SynthDef(\panaz8, {
 	arg freqini=120, outbus=0, amp=3, freq=0.5;
 	var klank,env;
@@ -68,21 +69,35 @@ SynthDef(\panaz8, {
 g = Synth(\panaz8);
 )
 
+=======
+SynthDef(\panaz2) {
+	arg noise=0.3, width = 2.0;
+    var panaz;
+	panaz = PanAz.ar(
+        8,                 // numChans
+        ClipNoise.ar,     // in
+        LFSaw.kr(LFNoise1.kr(noise)),0.01,width,0.5);
+	Out.ar(0,panaz);
+}.add
+)
+g=Synth(\panaz2);
+g.set(\noise,2);
+g.set(\width,1);
+>>>>>>> origin/master
 g.free;
 
 (
 h = OSCFunc( { | msg, time, addr, port |
-	var pyFreq,pyNharm,pyDetune,pyOut;
-	//pyOut = msg[1]; //valores originales del 0 al 5
-	pyFreq = msg[2]/15; //valores originales del 1 al 30
+	var pyNoise,pyWidth;
+	pyNoise = msg[1]; //valores originales del 0 al 5
+	//pyFreq = msg[2]/15; //valores originales del 1 al 30
 	//pyDetune = msg[3]/2.5;//valores originales del 1 al 100 milisegundos
-	//pyOut = msg[4];//valores originales del 1 al 8
-	( "/raspi2/freq is " + pyFreq ).postln;
-	//( "/raspi1/bus " + pyOut ).postln;
+	pyWidth = msg[4];//valores originales del 1 al 8
+	( "/raspi2/noise is " + pyNoise ).postln;
+	( "/raspi2/width is " + pyWidth).postln;
 	//( "detune " + pyDetune ).postln;
 	//( "channel is " + pyOut).postln;
-	g.set(\freq,pyFreq,
-		 );
+	g.set(\noise,pyNoise,\width,pyWidth);
 }, '/raspi2/' );
 )
 h.free
@@ -107,10 +122,14 @@ modFreq=1, freq1=64, freq2=65, mul1=0.1, mul2=0.1|
 }).add;
 
 g = Synth(\drone1);
+<<<<<<< HEAD
 )
 
 g.free;
 
+=======
+g.free;
+>>>>>>> origin/master
 
 (
 i = OSCFunc( { | msg, time, addr, port |

@@ -32,3 +32,4 @@ a = {
 }
 )
 a.play;
+a.free;

@@ -10,18 +10,12 @@ o.outDevice.postln; //imprimir dispositivo de salida
 s.boot; ///bootear servidos
 )
 
-///prueba de bocinas una por una
-p = ProxySpace.push;
-~test1 = { SinOsc.ar([1] * 100) * 0.1 };
-~test1.play(0); //aqui número de bocina
-~test1.stop
-
 
 ////RASPI1
 (
 
 SynthDef(\uno,{
-	arg freq=60, nharm=20, detune=0.5,amp=0.5,out=0;
+	arg freq=60, nharm=20, detune=0.5,amp=0.4,out=0;
 	var sig, env;
 	env = EnvGen.kr(Env.adsr(0.5,0.5,0.5,1),doneAction:2);
 	sig = Blip.ar(
@@ -34,7 +28,7 @@ SynthDef(\uno,{
 }).add;
 )
 e = Synth.new(\uno);
-e.set(\amp,0.7);
+e.set(\amp,0.6);///checar cumplea
 e.free;
 
 (
@@ -47,8 +41,8 @@ f = OSCFunc( { | msg, time, addr, port |
 	( "/raspi1/freq is " + pyFreq ).postln;
 	( "/raspi1/nharm " + pyNharm ).postln;
 	( "/raspi1/detune " + pyDetune ).postln;
-	( "/raspi1/channel is " + pyOut).postln;
-	e.set(\freq,pyFreq, \nharm,pyNharm, \detune,pyDetune, \out, pyOut,
+	//( "/raspi1/channel is " + pyOut).postln;
+	e.set(\freq,pyFreq, \nharm,pyNharm, \detune,pyDetune,
 		 );
 }, '/raspi1/' );
 )
@@ -78,10 +72,10 @@ g.free;
 (
 h = OSCFunc( { | msg, time, addr, port |
 	var pyNoise,pyWidth;
-	pyNoise = msg[1]; //valores originales del 0 al 5
+	pyNoise = msg[1]+1; //valores originales del 0 al 5
 	//pyFreq = msg[2]/15; //valores originales del 1 al 30
 	//pyDetune = msg[3]/2.5;//valores originales del 1 al 100 milisegundos
-	pyWidth = msg[4];//valores originales del 1 al 8
+	pyWidth = msg[4]+1;//valores originales del 1 al 8
 	( "/raspi2/noise is " + pyNoise ).postln;
 	( "/raspi2/width is " + pyWidth).postln;
 	//( "detune " + pyDetune ).postln;
@@ -99,8 +93,8 @@ h.free
     ~buf2= Buffer.alloc(s, 512,1);
 	~buf2.sine1(1/Array.fill(10,{|i| i+1}));
 
-SynthDef(\drone1, {|out= 0, gate= 1, amp= 0.25,
-modFreq=1, freq1=64, freq2=65, mul1=0.5, mul2=0.5|
+SynthDef(\drone1, {|out= 0, gate= 1, amp= 0.15,
+modFreq=1, freq1=64, freq2=65, mul1=0.09, mul2=0.09|
 	var env, mod, a, b, mixer;
 	env = EnvGen.ar(Env.asr(0.01, 1, 0.5), gate, doneAction:2);
 	mod = LFTri.ar(modFreq);
@@ -113,6 +107,7 @@ modFreq=1, freq1=64, freq2=65, mul1=0.5, mul2=0.5|
 
 
 g = Synth(\drone1);
+g.set(\amp,0.1);
 g.free;
 
 (

@@ -12,7 +12,7 @@ s.boot
 	// (1) create a UserView
 	v = UserView(w,Rect(50,50,200,20));
 
-	// (2) set the default action
+// (2) set the default action
 	~action = {
 		o = Server.local.options; ////variable para cambios en el servidor
 		o.numOutputBusChannels = 8; //setea 8 canales 8 de salida ANTES DE BOOTEAR!!
@@ -23,12 +23,11 @@ s.boot
 	};
 
 	~action2 = {
-		// aquí va la rutina de prueba
+// aquí va la rutina de prueba
 	};
-
-	// (3) define a drawing function
+// (3) define a drawing function
 	v.drawFunc = {
-		// Draw the button
+// Draw the button
 		b = Button(w, Rect(100,100,200,60)).states_(
 				[["Iniciar Programa",Color.white(0.1),Color.black(0.0)]]
 			).action_(~action);

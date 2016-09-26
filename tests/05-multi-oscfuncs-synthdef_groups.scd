@@ -1,12 +1,15 @@
- s.boot;
+s.boot;
 
 
 (
 
 ~pis = [1,2,3];
+
 ~num_pis = ~pis.size;
+
 ~num_pis.postln;
-~num_outs = 8;
+
+~num_outs = 2;
 ~num_synths = 6;
 
 
@@ -19,58 +22,18 @@ m = NetAddr("127.0.0.1", NetAddr.langPort); // loopback
 
 // pi1 synths
 
-// ---------------------------------------------------------------
-
-SynthDef(\pi1_synth1,{
-	arg freq1=200,freq2=300, gate=1, dur=0.1, amp=0.5,out=0;
-	var env,sig;
-	env = EnvGen.kr(Env.perc(1/20,dur), gate, doneAction: 2);
-	sig =  SinOsc.ar(BrownNoise.ar(freq1, freq2));
-	sig = sig * amp * env;
-	Out.ar(out,sig);
+SynthDef(\pi1_synth1, {|freq=330,out=0,gate=1,dur=0.1, amp=0.5|
+   Out.ar( out, amp * SinOsc.ar(freq) * EnvGen.kr( Env.perc(1/20,dur), gate, doneAction: 2 ) )
 }).send(s);
-
-// ---------------------------------------------------------------
-
-~buf2= Buffer.alloc(s, 512,1);
-~buf2.sine1(1/Array.fill(10,{|i| i+1}));
-
-SynthDef(\pi1_synth2, {|out= 0, gate= 1, amp= 0.25, dur= 0.1,
-modFreq=1, freq1=64, freq2=65, mul1=1, mul2=1|
-	var env, mod, a, b, mixer;
-	env = EnvGen.kr(Env.perc(1/20,dur), gate, doneAction: 2);
-	mod = LFTri.ar(modFreq);
-	a = Osc.ar (~buf2, freq1,  mod, mul1);
-	b = Osc.ar (~buf2, freq2, mod,  mul2);
-	mixer= Mix.new([a,b]);
-	Out.ar(out, mixer * (env *amp));
+SynthDef(\pi1_synth2, {|freq=330,out=0,gate=1,dur=0.1, amp=0.5|
+   Out.ar( out, amp * LFPulse.ar(freq) * EnvGen.kr( Env.perc(1/20,dur), gate, doneAction: 2 ) )
 }).send(s);
-
-// ---------------------------------------------------------------
-
-
-SynthDef(\pi1_synth3, {
-	|freq=440, dur=0.1, gate=1, amp=0.5,out=0|
-	var env, sig;
-	env = EnvGen.kr(Env.perc(1/20,dur), gate, doneAction: 2);
-	sig = SinOsc.ar([1, 1.334840, 1.587401] * freq, 0, 0.2).sum;
-	Out.ar(out, env * sig * amp);
+SynthDef(\pi1_synth3, {|freq=330,out=0,gate=1,dur=0.1, amp=0.5|
+   Out.ar( out, amp * LFTri.ar(freq) * EnvGen.kr( Env.perc(1/20,dur), gate, doneAction: 2 ) )
 }).send(s);
-
-
-// ---------------------------------------------------------------
-
-SynthDef(\pi1_synth4,{|out= 0, gate= 1, amp= 0.25, fund=200, pulseFreq=0.5, sus=100, dur=100|
-	var env, sound,sound2, pulse, percEnv;
-	env = EnvGen.ar(Env.asr(0.01, sus, 0.5), gate, doneAction:2);
-	sound = Array.fill(10, {SinOsc.ar(fund + Rand(0,200), Rand(0.0,1.0), 10.reciprocal) * EnvGen.ar(Env.perc(0.1, 2+Rand(0.0,dur)))});
-	sound= Mix(sound);
-Out.ar(out, sound )
+SynthDef(\pi1_synth4, {|freq=330,out=0,gate=1,dur=0.1, amp=0.5|
+   Out.ar( out, amp * Saw.ar(freq) * EnvGen.kr( Env.perc(1/20,dur), gate, doneAction: 2 ) )
 }).send(s);
-
-// ---------------------------------------------------------------
-
-
 SynthDef(\pi1_synth5, {|freq=330,out=0,gate=1,dur=0.1, amp=0.5|
    Out.ar( out, amp * Blip.ar(freq) * EnvGen.kr( Env.perc(1/20,dur), gate, doneAction: 2 ) )
 }).send(s);
@@ -78,64 +41,23 @@ SynthDef(\pi1_synth6, {|freq=330,out=0,gate=1,dur=0.1, amp=0.5|
    Out.ar( out, amp * FreeVerb.ar( Blip.ar(freq), 1, 1 ) * EnvGen.kr( Env.perc(1/20,dur), gate, doneAction: 2 ) )
 }).send(s);
 
-// ---------------------------------------------------------------
 
 
 
 // pi2 synths
 
-
-// ---------------------------------------------------------------
-
-SynthDef(\pi2_synth1,{
-	arg freq1=200,freq2=300, gate=1, dur=0.1, amp=0.5,out=0;
-	var env,sig;
-	env = EnvGen.kr(Env.perc(1/20,dur), gate, doneAction: 2);
-	sig =  SinOsc.ar(BrownNoise.ar(freq1, freq2));
-	sig = sig * amp * env;
-	Out.ar(out,sig);
+SynthDef(\pi2_synth1, {|freq=330,out=0,gate=1,dur=0.1, amp=0.5|
+   Out.ar( out, amp * SinOsc.ar(freq*2) * EnvGen.kr( Env.perc(1/20,dur), gate, doneAction: 2 ) )
 }).send(s);
-
-// ---------------------------------------------------------------
-
-~buf2= Buffer.alloc(s, 512,1);
-~buf2.sine1(1/Array.fill(10,{|i| i+1}));
-
-SynthDef(\pi2_synth2, {|out= 0, gate= 1, amp= 0.25, dur= 0.1,
-modFreq=1, freq1=64, freq2=65, mul1=1, mul2=1|
-	var env, mod, a, b, mixer;
-	env = EnvGen.kr(Env.perc(1/20,dur), gate, doneAction: 2);
-	mod = LFTri.ar(modFreq);
-	a = Osc.ar (~buf2, freq1,  mod, mul1);
-	b = Osc.ar (~buf2, freq2, mod,  mul2);
-	mixer= Mix.new([a,b]);
-	Out.ar(out, mixer * (env *amp));
+SynthDef(\pi2_synth2, {|freq=330,out=0,gate=1,dur=0.1, amp=0.5|
+   Out.ar( out, amp * LFPulse.ar(freq*2) * EnvGen.kr( Env.perc(1/20,dur), gate, doneAction: 2 ) )
 }).send(s);
-
-// ---------------------------------------------------------------
-
-
-SynthDef(\pi2_synth3, {
-	|freq=440, dur=0.1, gate=1, amp=0.5,out=0|
-	var env, sig;
-	env = EnvGen.kr(Env.perc(1/20,dur), gate, doneAction: 2);
-	sig = SinOsc.ar([1, 1.334840, 1.587401] * freq, 0, 0.2).sum;
-	Out.ar(out, env * sig * amp);
+SynthDef(\pi2_synth3, {|freq=330,out=0,gate=1,dur=0.1, amp=0.5|
+   Out.ar( out, amp * LFTri.ar(freq*2) * EnvGen.kr( Env.perc(1/20,dur), gate, doneAction: 2 ) )
 }).send(s);
-
-
-// ---------------------------------------------------------------
-
-SynthDef(\pi2_synth4,{|out= 0, gate= 1, amp= 0.25, fund=200, pulseFreq=0.5, sus=100, dur=100|
-	var env, sound,sound2, pulse, percEnv;
-	env = EnvGen.ar(Env.asr(0.01, sus, 0.5), gate, doneAction:2);
-	sound = Array.fill(10, {SinOsc.ar(fund + Rand(0,200), Rand(0.0,1.0), 10.reciprocal) * EnvGen.ar(Env.perc(0.1, 2+Rand(0.0,dur)))});
-	sound= Mix(sound);
-Out.ar(out, sound )
+SynthDef(\pi2_synth4, {|freq=330,out=0,gate=1,dur=0.1, amp=0.5|
+   Out.ar( out, amp * Saw.ar(freq*2) * EnvGen.kr( Env.perc(1/20,dur), gate, doneAction: 2 ) )
 }).send(s);
-
-// ---------------------------------------------------------------
-
 SynthDef(\pi2_synth5, {|freq=330,out=0,gate=1,dur=0.1, amp=0.5|
    Out.ar( out, amp * Blip.ar(freq*2) * EnvGen.kr( Env.perc(1/20,dur), gate, doneAction: 2 ) )
 }).send(s);
@@ -147,58 +69,18 @@ SynthDef(\pi2_synth6, {|freq=330,out=0,gate=1,dur=0.1, amp=0.5|
 
 // pi3 synths
 
-
-// ---------------------------------------------------------------
-
-SynthDef(\pi3_synth1,{
-	arg freq1=200,freq2=300, gate=1, dur=0.1, amp=0.5,out=0;
-	var env,sig;
-	env = EnvGen.kr(Env.perc(1/20,dur), gate, doneAction: 2);
-	sig =  SinOsc.ar(BrownNoise.ar(freq1, freq2));
-	sig = sig * amp * env;
-	Out.ar(out,sig);
+SynthDef(\pi3_synth1, {|freq=330,out=0,gate=1,dur=0.1, amp=0.5|
+   Out.ar( out, amp * SinOsc.ar(freq*3) * EnvGen.kr( Env.perc(1/20,dur), gate, doneAction: 2 ) )
 }).send(s);
-
-// ---------------------------------------------------------------
-
-~buf2= Buffer.alloc(s, 512,1);
-~buf2.sine1(1/Array.fill(10,{|i| i+1}));
-
-SynthDef(\pi3_synth2, {|out= 0, gate= 1, amp= 0.25, dur= 0.1,
-modFreq=1, freq1=64, freq2=65, mul1=1, mul2=1|
-	var env, mod, a, b, mixer;
-	env = EnvGen.kr(Env.perc(1/20,dur), gate, doneAction: 2);
-	mod = LFTri.ar(modFreq);
-	a = Osc.ar (~buf2, freq1,  mod, mul1);
-	b = Osc.ar (~buf2, freq2, mod,  mul2);
-	mixer= Mix.new([a,b]);
-	Out.ar(out, mixer * (env *amp));
+SynthDef(\pi3_synth2, {|freq=330,out=0,gate=1,dur=0.1, amp=0.5|
+   Out.ar( out, amp * LFPulse.ar(freq*3) * EnvGen.kr( Env.perc(1/20,dur), gate, doneAction: 2 ) )
 }).send(s);
-
-// ---------------------------------------------------------------
-
-
-SynthDef(\pi3_synth3, {
-	|freq=440, dur=0.1, gate=1, amp=0.5,out=0|
-	var env, sig;
-	env = EnvGen.kr(Env.perc(1/20,dur), gate, doneAction: 2);
-	sig = SinOsc.ar([1, 1.334840, 1.587401] * freq, 0, 0.2).sum;
-	Out.ar(out, env * sig * amp);
+SynthDef(\pi3_synth3, {|freq=330,out=0,gate=1,dur=0.1, amp=0.5|
+   Out.ar( out, amp * LFTri.ar(freq*3) * EnvGen.kr( Env.perc(1/20,dur), gate, doneAction: 2 ) )
 }).send(s);
-
-
-// ---------------------------------------------------------------
-
-SynthDef(\pi3_synth4,{|out= 0, gate= 1, amp= 0.25, fund=200, pulseFreq=0.5, sus=100, dur=100|
-	var env, sound,sound2, pulse, percEnv;
-	env = EnvGen.ar(Env.asr(0.01, sus, 0.5), gate, doneAction:2);
-	sound = Array.fill(10, {SinOsc.ar(fund + Rand(0,200), Rand(0.0,1.0), 10.reciprocal) * EnvGen.ar(Env.perc(0.1, 2+Rand(0.0,dur)))});
-	sound= Mix(sound);
-Out.ar(out, sound )
+SynthDef(\pi3_synth4, {|freq=330,out=0,gate=1,dur=0.1, amp=0.5|
+   Out.ar( out, amp * Saw.ar(freq*3) * EnvGen.kr( Env.perc(1/20,dur), gate, doneAction: 2 ) )
 }).send(s);
-
-// ---------------------------------------------------------------
-
 SynthDef(\pi3_synth5, {|freq=330,out=0,gate=1,dur=0.1, amp=0.5|
    Out.ar( out, amp * Blip.ar(freq*3) * EnvGen.kr( Env.perc(1/20,dur), gate, doneAction: 2 ) )
 }).send(s);
@@ -274,42 +156,13 @@ OSCFunc.newMatching({ | msg, time, addr, port |
       ( "OSCFunc " ++ pi_id ++ " plays: " ++ ~synth_name ).postln;
       "".postln;
 
-      ~synths[ 1 ][ \pi1_synth1 ] = Synth(
-         \pi1_synth1,
-         [
-			freq1: param1,
-			freq2: param1,
-            dur: param2,
-            out: out_channel % ~num_outs
-         ]);
-
-
-		~synths[ 1 ][ \pi1_synth2 ] = Synth(
-         \pi1_synth2,
-         [
-			freq1: param1,
-			freq2: param1,
-            dur: param2,
-            out: out_channel % ~num_outs
-         ]);
-
-			~synths[ 1 ][ \pi1_synth3 ] = Synth(
-         \pi1_synth3,
-         [
-			freq: param1,
-            dur: param2,
-            out: out_channel % ~num_outs
-         ]);
-
-
-		~synths[ 1 ][ \pi1_synth4 ] = Synth(
-         \pi1_synth4,
+      ~synths[ pi_id ][ synth_id ] = Synth(
+         ~synth_name,
          [
             freq: param1,
-			dur: param2,
+            dur: param2,
             out: out_channel % ~num_outs
          ]);
-
    }, {});
 
 }, '/raspi1/' );
@@ -338,38 +191,11 @@ OSCFunc.newMatching({ | msg, time, addr, port |
       ( "OSCFunc " ++ pi_id ++ " plays: " ++ ~synth_name ).postln;
       "".postln;
 
-     ~synths[ 2 ][ \pi2_synth1 ] = Synth(
-         \pi2_synth1,
-         [
-				freq1: param1,
-			freq2: param1,
-            dur: param2,
-            out: out_channel % ~num_outs
-         ]);
-
-
-		~synths[ 2 ][ \pi2_synth2 ] = Synth(
-         \pi2_synth2,
-         [
-			freq1: param1,
-			freq2: param1,
-            out: out_channel % ~num_outs
-         ]);
-
-			~synths[ 2 ][ \pi2_synth3 ] = Synth(
-         \pi2_synth3,
-         [
-			freq: param1,
-            dur: param2,
-            out: out_channel % ~num_outs
-         ]);
-
-
-		~synths[ 2 ][ \pi2_synth4 ] = Synth(
-         \pi2_synth4,
+      ~synths[ pi_id ][ synth_id ] = Synth(
+         ~synth_name,
          [
             freq: param1,
-			dur: param2,
+            dur: param2,
             out: out_channel % ~num_outs
          ]);
    }, {});
@@ -400,44 +226,13 @@ OSCFunc.newMatching({ | msg, time, addr, port |
       ( "OSCFunc " ++ pi_id ++ " plays: " ++ ~synth_name ).postln;
       "".postln;
 
-
-		~synths[ 3 ][ \pi3_synth1 ] = Synth(
-         \pi3_synth1,
-         [
-			freq1: param1,
-			freq2: param1,
-            dur: param2,
-            out: out_channel % ~num_outs
-         ]);
-
-
-		~synths[ 3 ][ \pi3_synth2 ] = Synth(
-         \pi3_synth2,
-         [
-			freq1: param1,
-			freq2: param1,
-            dur: param2,
-            out: out_channel % ~num_outs
-         ]);
-
-			~synths[ 3 ][ \pi3_synth3 ] = Synth(
-         \pi3_synth3,
-         [
-			freq: param1,
-            dur: param2,
-            out: out_channel % ~num_outs
-         ]);
-
-
-		~synths[ 3 ][ \pi3_synth4 ] = Synth(
-         \pi3_synth4,
+      ~synths[ pi_id ][ synth_id ] = Synth(
+         ~synth_name,
          [
             freq: param1,
-			dur: param2,
+            dur: param2,
             out: out_channel % ~num_outs
          ]);
-
-
    }, {});
 
 }, '/raspi3/' );

@@ -1,4 +1,5 @@
 s.boot;
+s.boot;
 
 (
 ~num_outs = 8;
@@ -70,12 +71,12 @@ OSCFunc.newMatching({ | msg, time, addr, port |
 
    });
 
-}, '/raspi1 );
+}, '/raspi1' );
 
 fork {
    inf.do{|i|
-      var outchan = out_channel;
-      var synth_id = synth_id;
+      var outchan = synth_id;
+      var synth_id = out_channel;
       m.sendMsg(
          "/createSynth",
          synth_id,                  // numero de sinte 0 - 5

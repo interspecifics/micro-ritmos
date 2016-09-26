@@ -66,7 +66,6 @@ c=Synth(\synths1,[\freq, rrand(45,80).midicps]);
 SynthDef(\darkbell,{|out= 0, gate= 1, amp= 0.25, fund=200, pulseFreq=0.5, sus=100, dur=100|
 	var env, sound,sound2, pulse, percEnv;
 	env = EnvGen.ar(Env.asr(0.01, sus, 0.5), gate, doneAction:2);
-	//pulse = Impulse.ar(pulseFreq);
 	sound = Array.fill(10, {SinOsc.ar(fund + Rand(0,200), Rand(0.0,1.0), 10.reciprocal) * EnvGen.ar(Env.perc(0.1, 2+Rand(0.0,dur)))});
 	sound= Mix(sound);
 Out.ar(out, sound )

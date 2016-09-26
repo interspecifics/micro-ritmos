@@ -114,7 +114,7 @@ g.free;
 i = OSCFunc( { | msg, time, addr, port |
 	var pymodFreq,pyFreq1,pyFreq2;
 	pymodFreq = msg[1]; //valores originales del 0 al 5
-	pyFreq1 = msg[2]*10; //valores originales del 1 al 30
+	pyFreq1 = msg[2]*5; //valores originales del 1 al 30
 	pyFreq2 = msg[3].asFloat/5;//valores originales del 1 al 100 milisegundos
 	//py = msg[4];//valores originales del 1 al 8
 	( "/raspi3/modFreq " + pymodFreq ).postln;

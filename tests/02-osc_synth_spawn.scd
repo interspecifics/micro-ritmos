@@ -10,9 +10,6 @@ SynthDef(\spawn_test, {|freq=330,out=0,gate=1|
    Out.ar( out, 1/2 * SinOsc.ar(freq) * EnvGen.kr( Env.perc, gate, doneAction: 2 ) )
 }).send(s);
 
-// probar sinte:
-x=Synth(\spawn_test);
-
 ~synths = Dictionary.new();
 
 

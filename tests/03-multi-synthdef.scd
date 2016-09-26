@@ -74,7 +74,7 @@ OSCFunc.newMatching({ | msg, time, addr, port |
 
 fork {
    inf.do{|i|
-      var outchan = i % num_outs;
+      var outchan = i % ~num_outs;
       var synth_id = i % ~num_synths;
       m.sendMsg(
          "/createSynth",

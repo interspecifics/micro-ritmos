@@ -10,18 +10,12 @@ o.outDevice.postln; //imprimir dispositivo de salida
 s.boot; ///bootear servidos
 )
 
-///prueba de bocinas una por una
-p = ProxySpace.push;
-~test1 = { SinOsc.ar([1] * 100) * 0.1 };
-~test1.play(0); //aqui número de bocina
-~test1.stop
-
 
 ////RASPI1
 (
 
 SynthDef(\uno,{
-	arg freq=60, nharm=20, detune=0.5,amp=0.5,out=0;
+	arg freq=50, nharm=20, detune=0.5,amp=0.5,out=0;
 	var sig, env;
 	env = EnvGen.kr(Env.adsr(0.5,0.5,0.5,1),doneAction:2);
 	sig = Blip.ar(
@@ -43,12 +37,12 @@ f = OSCFunc( { | msg, time, addr, port |
 	pyFreq = msg[1]+1*30; //valores originales del 0 al 5
 	pyNharm = msg[2]; //valores originales del 1 al 30
 	pyDetune = msg[3]/2.5;//valores originales del 1 al 100 milisegundos
-	pyOut = msg[4];//valores originales del 1 al 8
+	//pyOut = msg[4];//valores originales del 1 al 8
 	( "/raspi1/freq is " + pyFreq ).postln;
 	( "/raspi1/nharm " + pyNharm ).postln;
 	( "/raspi1/detune " + pyDetune ).postln;
-	( "/raspi1/channel is " + pyOut).postln;
-	e.set(\freq,pyFreq, \nharm,pyNharm, \detune,pyDetune, \out, pyOut,
+	//( "/raspi1/channel is " + pyOut).postln;
+	e.set(\freq,pyFreq, \nharm,pyNharm, \detune,pyDetune,
 		 );
 }, '/raspi1/' );
 )
@@ -70,10 +64,10 @@ SynthDef(\panaz8, {
                 )
         )
 }).add;
-)
 
 g = Synth(\panaz8);
-g.set(\amp,7);
+)
+
 g.free;
 
 (
@@ -102,7 +96,7 @@ h.free
 	~buf2.sine1(1/Array.fill(10,{|i| i+1}));
 
 SynthDef(\drone1, {|out= 0, gate= 1, amp= 0.25,
-modFreq=1, freq1=64, freq2=65, mul1=0.5, mul2=0.5|
+modFreq=1, freq1=64, freq2=65, mul1=0.1, mul2=0.1|
 	var env, mod, a, b, mixer;
 	env = EnvGen.ar(Env.asr(0.01, 1, 0.5), gate, doneAction:2);
 	mod = LFTri.ar(modFreq);
@@ -111,18 +105,19 @@ modFreq=1, freq1=64, freq2=65, mul1=0.5, mul2=0.5|
 	mixer= Mix.new([a,b]);
 	Out.ar(out, mixer * (env *amp));
 }).add;
-)
-
 
 g = Synth(\drone1);
+)
+
+g.free;
 
 
 (
 i = OSCFunc( { | msg, time, addr, port |
 	var pymodFreq,pyFreq1,pyFreq2;
-	pymodFreq = msg[1]; //valores originales del 0 al 5
-	pyFreq1 = msg[2]*10; //valores originales del 1 al 30
-	pyFreq2 = msg[3].asFloat/5;//valores originales del 1 al 100 milisegundos
+	pymodFreq = msg[1]+5; //valores originales del 0 al 5
+	pyFreq1 = msg[2]*7; //valores originales del 1 al 30
+	pyFreq2 = msg[3]+10*7;//valores originales del 1 al 100 milisegundos
 	//py = msg[4];//valores originales del 1 al 8
 	( "/raspi3/modFreq " + pymodFreq ).postln;
 	( "/raspi3/freq1 " + pyFreq1 ).postln;
@@ -132,8 +127,10 @@ i = OSCFunc( { | msg, time, addr, port |
 		 );
 }, '/raspi3/' );
 )
+
+
 i.free
-)
+
 
 
 

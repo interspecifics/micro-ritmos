@@ -88,10 +88,10 @@ h.free
 
 (
 SynthDef.new(\pulseTest, {
-	arg ampHz=4, fund=40, maxPartial=4, width=0.5;
+	arg ampHz=4, fund=20, maxPartial=4, width=0.5;
 	var amp1, amp2, freq1, freq2, sig1, sig2,mixer;
-	amp1 = LFPulse.kr(ampHz, 0, 0.12) * 0.75;
-	amp2 = LFPulse.kr (ampHz, 0.5, 0.12) * 0.75;
+	amp1 = LFPulse.kr(ampHz, 0, 0.12) * 0.1;
+	amp2 = LFPulse.kr (ampHz, 0.5, 0.12) * 0.1;
 	freq1 = LFNoise0.kr(4).exprange(fund, fund*maxPartial).round(fund);
 	freq2 = LFNoise0.kr(4).exprange(fund, fund*maxPartial).round(fund);
 	freq1 = freq1 * LFPulse.kr(8, add:1);
@@ -100,7 +100,7 @@ SynthDef.new(\pulseTest, {
 	sig2 = Pulse.ar (freq2, width, amp2);
 	sig1 = FreeVerb.ar(sig1, 0.7, 0.8, 0.25);
 	sig2 = FreeVerb.ar(sig2, 0.7, 0.8, 0.25);
-	mixer = Mix.new([sig1,sig2]);
+	mixer = Mix.new([sig1,sig2!8]);
 	Out.ar (0, mixer);
 }).add;
 )
@@ -109,19 +109,19 @@ SynthDef.new(\pulseTest, {
 
 x = Synth.new(\pulseTest;);
 x.set(\width, 0.1);
-x.set(\fund, 30);
-x.set(\maxPartial, 5);
-x.set(\ampHz, 3);
+x.set(\fund, 20);
+x.set(\maxPartial, 2);
+x.set(\ampHz, 1);
 x.free;
 
 (
 j = OSCFunc( { | msg, time, addr, port |
 	var pyPart,pyWidth,pyFund,piAmphz;
-	pyPart = msg[1]+1; //valores originales del 0 al 5
-	piAmphz = msg[1]+1;
-	pyFund = msg[2]; //valores originales del 1 al 30
+	pyPart = msg[1].rrand(1,10); //valores originales del 0 al 5
+	piAmphz = msg[1].rrand(1,7);
+	pyFund = msg[2].rrand(30,50); //valores originales del 1 al 30
 	//piAmphz = msg[3]/2.5;//valores originales del 1 al 100 milisegundos
-	pyWidth = msg[4]/2;//valores originales del 1 al 8
+	pyWidth = msg[4]/2.asFloat.rrand(0.1,1);//valores originales del 1 al 8
 	( "/raspi2/partial is " + pyPart ).postln;
 	( "/raspi2/hz is " + piAmphz ).postln;
 	( "/raspi2/fundamental is " + pyFund ).postln;

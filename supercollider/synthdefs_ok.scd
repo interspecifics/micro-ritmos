@@ -2,6 +2,10 @@
 /*
 (SynthDef(\pi1_synth1, {|freq=330,out=0,gate=1,dur=0.1, amp=0.5|
    Out.ar( out, amp * SinOsc.ar(freq) * EnvGen.kr( Env.perc(1/20,dur), gate, doneAction: 2 ) )
+
+parametre 1 >>> 1 al 30
+parMETRO 2 >>> 1 AL 100
+
 */
 
 
@@ -16,7 +20,10 @@ SynthDef(\noise1,{
 }).send(s);
 )
 
-a=Synth(\noise1);
+
+a=Synth(\noise1, [\Freq1,rrand(100,300),\freq2,rrand(200,400)]);
+
+
 
 
 (
@@ -52,8 +59,24 @@ SynthDef(\synths1, {
 )
 
 
-c=Synth(\synths1,[\freq, rrand(45,70).midicps]);
+c=Synth(\synths1,[\freq, rrand(45,80).midicps]);
 
 
+(
+SynthDef(\darkbell,{|out= 0, gate= 1, amp= 0.25, fund=200, pulseFreq=0.5, sus=100, dur=100|
+	var env, sound,sound2, pulse, percEnv;
+	env = EnvGen.ar(Env.asr(0.01, sus, 0.5), gate, doneAction:2);
+	//pulse = Impulse.ar(pulseFreq);
+	sound = Array.fill(10, {SinOsc.ar(fund + Rand(0,200), Rand(0.0,1.0), 10.reciprocal) * EnvGen.ar(Env.perc(0.1, 2+Rand(0.0,dur)))});
+	sound= Mix(sound);
+Out.ar(out, sound )
+}).play;
+)
+
+
+
+d=Synth(\darkbell);
+d.set(\fund,10);
+d.set(\pulseFreq,0.5);
 
 

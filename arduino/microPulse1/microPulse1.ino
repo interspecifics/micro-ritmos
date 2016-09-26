@@ -27,14 +27,15 @@ void setup() {
 
 
 void loop() {
-  randNumber = random(20, 450); //valor anterior 20 100
+  randNumber = random(20, 420); //valor anterior 20 100
   int bio = analogRead(A5);
-  bio = map(bio, 0, 1023, 0, 500);
+  bio = map(bio, 0, 1023, 40, 450);
   
   
   // estado 1
 
-  if (randNumber <= 50) {
+  if (bio
+   <= 50) {
 
     for (p = 0; p < 8; p++) {
       digitalWrite(RelayBoard1[p], 0);
@@ -49,52 +50,52 @@ void loop() {
  
  // estado 2
 
-  else if (randNumber <= 100) {
+  else if (bio <= 100) {
     digitalWrite(RelayBoard1[0], 0);
-    delay(bio);
+    delay(bio+20);
     digitalWrite(RelayBoard1[0], 1);
-    delay(bio);
+    delay(bio+20);
     digitalWrite(RelayBoard1[1], 0);
-    delay(bio);
+    delay(bio+20);
     digitalWrite(RelayBoard1[1], 1);
-    delay(bio);
+    delay(bio+20);
     digitalWrite(RelayBoard1[2], 0);
-    delay(bio);
+    delay(bio+20);
     digitalWrite(RelayBoard1[2], 1);
-    delay(bio);
+    delay(bio+20);
     digitalWrite(RelayBoard1[3], 0);
-    delay(bio);
+    delay(bio+20);
     digitalWrite(RelayBoard1[3], 1);
-    delay(bio);
+    delay(bio+20);
   }
   
     // estado 3
 
-  if (randNumber <= 150) {
+  if (bio <= 150) {
     digitalWrite(RelayBoard1[4], 0);
     digitalWrite(RelayBoard1[5], 0);
-    delay(bio);
+    delay(bio+20);
     digitalWrite(RelayBoard1[4], 1);
     digitalWrite(RelayBoard1[5], 1);
-    delay(bio);
+    delay(bio+20);
     digitalWrite(RelayBoard1[5], 0);
     digitalWrite(RelayBoard1[6], 0);
-    delay(bio);
+    delay(bio+20);
     digitalWrite(RelayBoard1[5], 1);
     digitalWrite(RelayBoard1[6], 1);
-    delay(bio);
+    delay(bio+20);
     digitalWrite(RelayBoard1[1], 0);
     digitalWrite(RelayBoard1[2], 0);
-    delay(bio);
+    delay(bio+20);
     digitalWrite(RelayBoard1[1], 1);
     digitalWrite(RelayBoard1[2], 1);
-    delay(bio);
+    delay(bio+20);
     digitalWrite(RelayBoard1[3], 0);
     digitalWrite(RelayBoard1[2], 0);
-    delay(bio);
+    delay(bio+20);
     digitalWrite(RelayBoard1[3], 1);
     digitalWrite(RelayBoard1[2], 1);
-    delay(bio);
+    delay(bio+20);
   }
 
   // estado 4
@@ -103,22 +104,22 @@ void loop() {
   else if (randNumber <= 200) {
     digitalWrite(RelayBoard1[0], 0);
     digitalWrite(RelayBoard1[0], 1);
-    delay(bio);
+    delay(bio+20);
     digitalWrite(RelayBoard1[1], 0);
     digitalWrite(RelayBoard1[1], 1);
-    delay(bio);
+    delay(bio+20);
     digitalWrite(RelayBoard1[2], 0);
     digitalWrite(RelayBoard1[2], 1);
-    delay(bio);
+    delay(bio+20);
     digitalWrite(RelayBoard1[3], 0);
     digitalWrite(RelayBoard1[3], 1);
-    delay(bio);
+    delay(bio+20);
     digitalWrite(RelayBoard1[4], 0);
     digitalWrite(RelayBoard1[4], 1);
-    delay(bio);
+    delay(bio+20);
     digitalWrite(RelayBoard1[5], 0);
     digitalWrite(RelayBoard1[5], 1);
-    delay(bio);
+    delay(bio+20);
 
 
   }
@@ -126,35 +127,35 @@ void loop() {
     // estado 5
 
 
-  else if (randNumber <= 250) {
+  else if (bio <= 250) {
     digitalWrite(RelayBoard1[6], 0);
     digitalWrite(RelayBoard1[3], 0);
-    delay(bio);
+    delay(bio+20);
 
     digitalWrite(RelayBoard1[6], 1);
     digitalWrite(RelayBoard1[3], 1);
-    delay(bio);
+    delay(bio+20);
 
 
     digitalWrite(RelayBoard1[4], 0);
     digitalWrite(RelayBoard1[2], 0);
-    delay(bio);
+    delay(bio+20);
 
     digitalWrite(RelayBoard1[4], 1);
     digitalWrite(RelayBoard1[2], 1);
-    delay(bio);
+    delay(bio+20);
   }
 
   // estado 6
 
 
-  else if (randNumber <= 300) {
+  else if (bio <= 300) {
     digitalWrite(RelayBoard1[p], 0);
     digitalWrite(RelayBoard1[p], 1);
 
     digitalWrite(RelayBoard1[p], 0);
     digitalWrite(RelayBoard1[p], 1);
-    delay(bio);
+    delay(bio + 20);
 
     digitalWrite(RelayBoard1[p], 0);
     digitalWrite(RelayBoard1[p], 1);
@@ -164,7 +165,7 @@ void loop() {
     // estado 7
 
 
-  else if (randNumber <= 350) {
+  else if (bio <= 350) {
     digitalWrite(RelayBoard1[0], 0);
     digitalWrite(RelayBoard1[1], 0);
     digitalWrite(RelayBoard1[2], 0);
@@ -172,7 +173,7 @@ void loop() {
     digitalWrite(RelayBoard1[4], 0);
     digitalWrite(RelayBoard1[5], 0);
 
-    delay(bio);
+    delay(bio+20);
     digitalWrite(RelayBoard1[0], 1);
     digitalWrite(RelayBoard1[1], 1);
     digitalWrite(RelayBoard1[2], 1);
@@ -188,44 +189,44 @@ void loop() {
 
   // estado 8
 
-  else if (randNumber <= 400) {
+  else if (bio <= 400) {
     for (p = 0; p < 8; p++) {
       digitalWrite(RelayBoard1[p], 0);
-      delay(bio);
+      delay(bio+20);
       digitalWrite(RelayBoard1[p + 1], 0);
-      delay(bio);
+      delay(bio+20);
       digitalWrite(RelayBoard1[p], 1);
-      delay(bio * 2);
+      delay(bio +20);
     }
     for (p = 7; p > 0; p--) {
       digitalWrite(RelayBoard1[p], 0);
-      delay(bio);
+      delay(bio + 20);
       digitalWrite(RelayBoard1[p - 1], 0);
-      delay(bio);
+      delay(bio + 20);
       digitalWrite(RelayBoard1[p], 1);
-      delay(bio);
+      delay(bio + 20);
     }
   }
   
     // estado 9
 
 
-  else if (randNumber <= 450) {
+  else if (bio <= 450) {
     for (p = 0; p < 8; p++) {
       digitalWrite(RelayBoard1[p], 0);
-      delay(bio);
+      delay(bio +20);
       digitalWrite(RelayBoard1[p + 1], 0);
-      delay(bio);
+      delay(bio + 20);
       digitalWrite(RelayBoard1[p], 1);
-      delay(bio);
+      delay(bio + 20);
     }
     for (p = 7; p > 0; p--) {
       digitalWrite(RelayBoard1[p], 0);
-      delay(bio);
+      delay(bio + 20);
       digitalWrite(RelayBoard1[p - 1], 0);
-      delay(bio);
+      delay(bio + 20);
       digitalWrite(RelayBoard1[p], 1);
-      delay(bio );
+      delay(bio + 20 );
     }
   }
 }

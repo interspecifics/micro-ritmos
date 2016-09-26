@@ -60,35 +60,33 @@ f.free;
 
 ///RASP2
 (
-SynthDef(\panaz8, {
-	arg freqini=120, outbus=0, amp=3, freq=0.5;
-	var klank,env;
-	env = EnvGen.kr(Env.pairs([[1, 1], [2.1, 0.5],  [3, 0.5]], \exp));
-	klank = Klank.ar(`[(Array.series(4, 1, 1)), (Array.fill(4, 0.05)), (Array.fill(4, 1))], {ClipNoise.ar(0.0009)}!8, freqini);
-     Out.ar(outbus,(PanAz.ar(7,
-		(klank), LFSaw.kr(freq))*env*amp
-                )
-        )
-}).add;
+SynthDef(\panaz2) {
+	arg noise=0.3, width = 2.0;
+    var panaz;
+	panaz = PanAz.ar(
+        8,                 // numChans
+        ClipNoise.ar,     // in
+        LFSaw.kr(LFNoise1.kr(noise)),0.01,width,0.5);
+	Out.ar(0,panaz);
+}.add
 )
-
-g = Synth(\panaz8);
-g.set(\amp,7);
+g=Synth(\panaz2);
+g.set(\noise,2);
+g.set(\width,1);
 g.free;
 
 (
 h = OSCFunc( { | msg, time, addr, port |
-	var pyFreq,pyNharm,pyDetune,pyOut;
-	//pyOut = msg[1]; //valores originales del 0 al 5
-	pyFreq = msg[2]/15; //valores originales del 1 al 30
+	var pyNoise,pyWidth;
+	pyNoise = msg[1]; //valores originales del 0 al 5
+	//pyFreq = msg[2]/15; //valores originales del 1 al 30
 	//pyDetune = msg[3]/2.5;//valores originales del 1 al 100 milisegundos
-	//pyOut = msg[4];//valores originales del 1 al 8
-	( "/raspi2/freq is " + pyFreq ).postln;
-	//( "/raspi1/bus " + pyOut ).postln;
+	pyWidth = msg[4];//valores originales del 1 al 8
+	( "/raspi2/noise is " + pyNoise ).postln;
+	( "/raspi2/width is " + pyWidth).postln;
 	//( "detune " + pyDetune ).postln;
 	//( "channel is " + pyOut).postln;
-	g.set(\freq,pyFreq,
-		 );
+	g.set(\noise,pyNoise,\width,pyWidth);
 }, '/raspi2/' );
 )
 h.free
@@ -115,7 +113,7 @@ modFreq=1, freq1=64, freq2=65, mul1=0.5, mul2=0.5|
 
 
 g = Synth(\drone1);
-
+g.free;
 
 (
 i = OSCFunc( { | msg, time, addr, port |

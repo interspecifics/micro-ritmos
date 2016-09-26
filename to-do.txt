@@ -1,0 +1,6 @@
+to-do:
+
+- implementar rutina de prueba
+   - 1. iniciar responder controlador
+   - 2. activar sinte y enrutar a canal
+   - 3. ofrecer interfaz para interrumpir

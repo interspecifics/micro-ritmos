@@ -11,18 +11,34 @@ parMETRO 2 >>> 1 AL 100
 
 (
 SynthDef(\noise1,{
-	arg freq1=200,freq2=300, gate=1, dur=0.1, amp=0.5,out=0;
-	var env,sig;
+	arg freq1=200,freq2=300, gate=1, dur=100, amp=0.5,out=0, pospan=2.0, width=2.0;
+	var env,sig, panaz;
 	env = EnvGen.kr(Env.perc(1/20,dur), gate, doneAction: 2);
 	sig =  SinOsc.ar(BrownNoise.ar(freq1, freq2));
 	sig = sig * amp * env;
-	Out.ar(out,sig);
+	panaz= PanAz.ar(8,sig,pospan,0.3,width,0.5);
+	Out.ar(out,panaz);
 }).send(s);
 )
 
 
 a=Synth(\noise1, [\Freq1,rrand(100,300),\freq2,rrand(200,400)]);
+a.set(\pospan,0); ///asfloats con cambios de 0.2
+a.set(\width,2);
 
+
+
+(
+SynthDef(\panaz2) {
+	arg noise=0.3, width = 2.0;
+    var panaz;
+	panaz = PanAz.ar(
+        8,                 // numChans
+        ClipNoise.ar,     // in
+        LFSaw.kr(LFNoise1.kr(noise)),0.01,width,0.5);
+	Out.ar(0,panaz);
+}.add
+)
 
 
 
@@ -78,4 +94,35 @@ d=Synth(\darkbell);
 d.set(\fund,10);
 d.set(\pulseFreq,0.5);
 
+
+///
+
+(
+SynthDef(\Latton,{
+	arg out=0, gate=1, dur=1,freq1=1, freq2=1, freq3=1,freq4=1;
+	var env,sig;
+	env = EnvGen.kr(Env.perc(1/20,dur), gate, doneAction: 2);
+	sig = LatoocarfianN.ar(SampleRate.ir/4,
+		LFNoise2.kr(freq1,1.5,1.5),
+		LFNoise2.kr(freq2,1.5,1.5),
+		LFNoise2.kr(freq3,0.5,1.5),
+        LFNoise2.kr(freq4,0.5,1.5)) * 0.2 ;
+	Out.ar(out,sig * env);
+}).play;
+)
+
+//
+
+(
+SynthDef(\basicFM, {
+	|out = 0, gate = 1, amp = 1, carFreq = 60, modFreq = 80, modAmount = 1000, clipAmount = 0.1|
+		var modEnv = EnvGen.ar(Env.adsr(0.5, 0.5, 0.7, 0.1, peakLevel: modAmount), gate);
+		var mod = SinOsc.ar(modFreq) * modEnv!8;
+		var car = SinOsc.ar(carFreq + mod);
+		var ampEnv = EnvGen.ar(Env.adsr(0.1, 0.3, 0.7, 0.2, peakLevel: amp), gate, doneAction: 2);
+		var clip = clipAmount * 500;
+		Out.ar(out, (car * ampEnv * clip).clip(-0.7, 0.7) * 0.1);
+	}).play;
+
+)
 

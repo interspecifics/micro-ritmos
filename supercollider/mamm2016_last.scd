@@ -31,6 +31,8 @@ e = Synth.new(\uno);
 e.set(\amp,0.6);///checar cumplea
 e.free;
 
+
+
 (
 f = OSCFunc( { | msg, time, addr, port |
 	var pyFreq,pyNharm,pyDetune,pyOut;
@@ -49,20 +51,60 @@ f = OSCFunc( { | msg, time, addr, port |
 
 f.free;
 
+
+
+(
+SynthDef(\noise1,{
+	arg freq1=200,freq2=300, gate=1, dur=100, amp=0.5,out=0, pospan=2.0, width=2.0;
+	var env,sig, panaz;
+	env = EnvGen.kr(Env.perc(1/20,dur), gate, doneAction: 2);
+	sig =  SinOsc.ar(BrownNoise.ar(freq1, freq2));
+	sig = sig * amp * env;
+	panaz= PanAz.ar(8,sig,pospan,0.3,width,0.5);
+	Out.ar(out,panaz);
+}).add;
+)
+
+
+a=Synth(\noise1, [\Freq1,rrand(100,300),\freq2,rrand(200,400)]);
+a.set([\freq]
+a.set(\pospan,0.1); ///asfloats con cambios de 0.2
+a.set(\width,1);
+a.free;
+
+
+
+(
+d= OSCFunc( { | msg, time, addr, port |
+	var pyFreq,pyNharm,pyDetune,pyOut;
+	pyFreq = msg[1]+1*30; //valores originales del 0 al 5
+	pyNharm = msg[2]; //valores originales del 1 al 30
+	pyDetune = msg[3]/2.5;//valores originales del 1 al 100 milisegundos
+	pyOut = msg[4];//valores originales del 1 al 8
+	( "/raspi1/freq is " + pyFreq ).postln;
+	( "/raspi1/nharm " + pyNharm ).postln;
+	( "/raspi1/detune " + pyDetune ).postln;
+	//( "/raspi1/channel is " + pyOut).postln;
+	e.set(\freq,pyFreq, \nharm,pyNharm, \detune,pyDetune,
+		 );
+}, '/raspi1/' );
+)
+
+
 )
 
 
 ///RASP2
 (
-SynthDef(\panaz2) {
+SynthDef(\panaz2, {
 	arg noise=0.3, width = 2.0;
     var panaz;
 	panaz = PanAz.ar(
-        8,                 // numChans
-        ClipNoise.ar,     // in
+        8,
+        ClipNoise.ar,
         LFSaw.kr(LFNoise1.kr(noise)),0.01,width,0.5);
 	Out.ar(0,panaz);
-}.add
+}).add
 )
 g=Synth(\panaz2);
 g.set(\noise,2);
@@ -72,7 +114,7 @@ g.free;
 (
 h = OSCFunc( { | msg, time, addr, port |
 	var pyNoise,pyWidth;
-	pyNoise = msg[1]+1; //valores originales del 0 al 5
+	pyNoise = msg[1]+1.midiratio; //valores originales del 0 al 5
 	//pyFreq = msg[2]/15; //valores originales del 1 al 30
 	//pyDetune = msg[3]/2.5;//valores originales del 1 al 100 milisegundos
 	pyWidth = msg[4]+1;//valores originales del 1 al 8
@@ -117,7 +159,7 @@ x.free;
 (
 j = OSCFunc( { | msg, time, addr, port |
 	var pyPart,pyWidth,pyFund,piAmphz;
-	pyPart = msg[1].rrand(1,10); //valores originales del 0 al 5
+	pyPart = msg[1]+1*2; //valores originales del 0 al 5
 	piAmphz = msg[1].rrand(1,7);
 	pyFund = msg[2].rrand(30,50); //valores originales del 1 al 30
 	//piAmphz = msg[3]/2.5;//valores originales del 1 al 100 milisegundos
@@ -153,7 +195,7 @@ modFreq=1, freq1=64, freq2=65, mul1=0.09, mul2=0.09|
 
 
 g = Synth(\drone1);
-g.set(\amp,0.1);
+g.set(\amp,0.25);
 g.free;
 
 (

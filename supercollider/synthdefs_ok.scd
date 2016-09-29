@@ -18,7 +18,7 @@ SynthDef(\noise1,{
 	sig = sig * amp * env;
 	panaz= PanAz.ar(8,sig,pospan,0.3,width,0.5);
 	Out.ar(out,panaz);
-}).send(s);
+}).add;
 )
 
 

@@ -144,3 +144,32 @@ o.set(\modAmount,100);
 o.set(\clipAmount,50);
 o.set(\pospan,0.5);
 o.free;
+
+/////para hacer panaz
+
+(
+SynthDef.new(\pulseTest2, {
+	arg ampHz=4, fund=20, maxPartial=4, width=0.5,pospan=0.5;
+	var amp1, amp2, freq1, freq2, sig1, sig2,mixer,panaz;
+	amp1 = LFPulse.kr(ampHz, 0, 0.12) * 0.1;
+	amp2 = LFPulse.kr (ampHz, 0.5, 0.12) * 0.1;
+	freq1 = LFNoise0.kr(4).exprange(fund, fund*maxPartial).round(fund);
+	freq2 = LFNoise0.kr(4).exprange(fund, fund*maxPartial).round(fund);
+	freq1 = freq1 * LFPulse.kr(8, add:1);
+	freq2 = freq2 * LFPulse.kr(6, add:1);
+	sig1 = Pulse.ar(freq1, width, amp1);
+	sig2 = Pulse.ar (freq2, width, amp2);
+	sig1 = FreeVerb.ar(sig1, 0.7, 0.8, 0.25);
+	sig2 = FreeVerb.ar(sig2, 0.7, 0.8, 0.25);
+	mixer = Mix.new([sig1,sig2]);
+	panaz= PanAz.ar(8,mixer,pospan,0.5,width,0.5);
+	Out.ar (0, panaz);
+}).add;
+)
+
+x = Synth.new(\pulseTest2);
+x.set(\width, 0.1);
+x.set(\fund, 20);
+x.set(\maxPartial, 2);
+x.set(\ampHz, 1);
+x.free;

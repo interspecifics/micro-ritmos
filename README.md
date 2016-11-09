@@ -1,8 +1,20 @@
 # micro-ritmos
 Sistema de espacialización sonora donde utilizamos reconocimiento de patrones generados por variaciones de potencial en celdas bacterianas. El sistema selecciona distintos synthDefs y posiciones por canal en Supercollider a partir de comunicación OSC con un sistema de reconocimiento - learning machine escrito en python y que corre sobre raspberry pi. El sistema arroja una especie de partitura gráfica que se genera de forma autónoma y en tiempo real. 
 
+https://vimeo.com/190665110
 
-#Guía de Instalación en la raspberry pi.
+![the system](https://github.com/interspecifics/micro-ritmos/blob/master/img/28092016-IMG_4917.jpg?raw=true)
+
+#HARDWARE.
+- RaspberryPi B+
+- Camara module for raspberry 
+- Micro sd cards  
+- Arduino
+- Celda bacteriana
+- Arreglo de relays
+- Lamparas
+
+#CONFIGURACIÓN RASPBERRY
 
 1 - Instalar OpenCV http://www.pyimagesearch.com/2015/02/23/install-opencv-and-python-on-your-raspberry-pi-2-and-b/:
 

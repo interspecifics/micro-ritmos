@@ -13,6 +13,13 @@ https://vimeo.com/190665110
 - Celda bacteriana
 - Arreglo de relays
 - Lamparas
+- MOTU
+- 8 loudspeakers
+
+
+![the system](https://github.com/interspecifics/micro-ritmos/blob/master/img/MICROPULSO.jpg?raw=true)
+
+
 
 #CONFIGURACIÓN RASPBERRY
 

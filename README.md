@@ -1,3 +1,7 @@
+
+# Micro-rhythms 
+is a bio-driven installation where small variations in voltage inside microbial cells generate combining arrays of light patterns. A pattern recognition algorithm detects matching sequences and turns them in to sound. The algorithm written in Python uses three Raspberry Pi cameras with Open Computer Vision to track light changes creating a real-time graphic score for an octophonic audio system to be played with SuperCollider. The cells are fuelled using soil samples from every place where the piece is presented, growing harmless bacteria that clean their environment and produce the micro signal that detonates all the processes in the piece. Understood as an interspecies system, the installation amplifies the microvoltage produced by these microscopic organisms and transduces their oscillations into pure electronic signals with which they create an audiovisual system that evokes the origins of coded languages.
+
 # micro-ritmos
 Sistema de espacialización sonora donde utilizamos reconocimiento de patrones generados por variaciones de potencial en celdas bacterianas. El sistema selecciona distintos synthDefs y posiciones por canal en Supercollider a partir de comunicación OSC con un sistema de reconocimiento - learning machine escrito en python y que corre sobre raspberry pi. El sistema arroja una especie de partitura gráfica que se genera de forma autónoma y en tiempo real. 
 

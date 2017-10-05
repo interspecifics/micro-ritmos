@@ -21,7 +21,7 @@ https://vimeo.com/190665110
 - 8 loudspeakers
 
 
-![the system](https://github.com/interspecifics/micro-ritmos/blob/master/img/MICROPULSO.jpg?raw=true)
+![the system](https://github.com/interspecifics/micro-ritmos/blob/master/img/micro_ritmos_1.jpg?raw=true)
 
 
 

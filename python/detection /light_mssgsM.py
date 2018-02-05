@@ -128,7 +128,7 @@ if __name__ == "__main__":
 	period = 10
 	posTr_x = 0
 	posTr_y = 180
-	binThreshold = 180
+	binThreshold = 133
 	maxVal = 255
 	kp_bin = []
 	nD=[]

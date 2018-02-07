@@ -148,7 +148,7 @@ if __name__ == "__main__":
 
 	# detector init
 	pp=cv2.SimpleBlobDetector_Params()
-	pp.minThreshold=208
+	pp.minThreshold=108
 	pp.maxThreshold=255
 	pp.filterByArea=True
 	pp.minArea=50
@@ -164,7 +164,7 @@ if __name__ == "__main__":
 		cam.resolution = (w, h)
 		cam.framerate = frameR
 		cam.contrast = 100
-		cam.brightness = 20
+		cam.brightness = 60
 		#cam.start_preview()
 		time.sleep(2)
 		stream = PiRGBArray(cam)

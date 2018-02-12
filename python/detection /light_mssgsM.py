@@ -100,7 +100,7 @@ def create_blank(w, h, rgb_color=(0, 0, 0)):
 	color = tuple(reversed(rgb_color))
 	image[:] = 0
 	return image
-	
+
 
 def binarize_keypoints (binSize, w, kpList):
 	""" the other binarization """
@@ -166,7 +166,7 @@ if __name__ == "__main__":
 		cam.framerate = frameR
 		cam.contrast = 100
 		cam.brightness = 60
-		cam.start_preview()
+		#cam.start_preview()
 		time.sleep(2)
 		stream = PiRGBArray(cam)
 		## capture loop
@@ -188,7 +188,7 @@ if __name__ == "__main__":
 			cluster = recognize(kp_bin, means)
 			print i,"[",cluster,"] - ",kp_bin
 			SM.update(kp_bin, cluster)
-			SM.show()
+			#SM.show()
 																# track & ntes
 			cv2.rectangle(track, (i%w, 0), (i%w, 50), (0,0,0))
 			for k in keyPoints:

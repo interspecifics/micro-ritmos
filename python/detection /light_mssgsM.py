@@ -188,7 +188,7 @@ if __name__ == "__main__":
 			cluster = recognize(kp_bin, means)
 			print i,"[",cluster,"] - ",kp_bin
 			SM.update(kp_bin, cluster)
-			#SM.show()
+			SM.show()
 																# track & ntes
 			cv2.rectangle(track, (i%w, 0), (i%w, 50), (0,0,0))
 			for k in keyPoints:

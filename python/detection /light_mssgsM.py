@@ -137,7 +137,7 @@ if __name__ == "__main__":
 	SM = stateMachine(rId, w/10)
 
 	## osc init
-	send_addr = '192.168.1.44', 8666
+	send_addr = '192.168.1.22', 8666
 	#send_addr = "localhost", 8300
 
 	cOsc = OSC.OSCClient()

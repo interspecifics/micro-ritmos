@@ -166,7 +166,7 @@ if __name__ == "__main__":
 		cam.framerate = frameR
 		cam.contrast = 100
 		cam.brightness = 60
-		#cam.start_preview()
+		cam.start_preview()
 		time.sleep(2)
 		stream = PiRGBArray(cam)
 		## capture loop

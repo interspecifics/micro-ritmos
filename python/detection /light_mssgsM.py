@@ -121,7 +121,7 @@ def recognize(kp_vect, centroids):
 ##  --- ----- --- ----- --- ----- ---- ------ ---- --- - -- --- - - -- - - ##
 if __name__ == "__main__":
 	## const init
-        rId=int(sys.argv[2])
+        rId=int(sys.argv[1])
 	w=320
 	h=240
 	i=0
